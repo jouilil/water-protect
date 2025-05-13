@@ -9,45 +9,45 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 
 # ✅ Configuration de la page Streamlit (doit être placée en premier)
-st.set_page_config(layout="wide", page_title="Tableau de Bord Global des Ventes d'Eau")
+st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 
 # ✅ Style personnalisé pour thème sombre et titre en blanc gras
 st.markdown("""
     <style>
         body {
-            background-color: #121212;
-            color: white;
+            background-color: white;
+            color: black;
         }
         .block-container {
-            background-color: #121212;
+            background-color: white;
         }
         .stSelectbox, .stMultiSelect {
-            background-color: #333333;
-            color: white;
-            border: 1px solid #444;
+            background-color: #f0f0f0;
+            color: black;
+            border: 1px solid #ccc;
         }
         .stButton {
             background-color: #1976d2;
             color: white;
         }
         .stTextInput, .stTextArea {
-            background-color: #333333;
-            color: white;
-            border: 1px solid #444;
+            background-color: #f0f0f0;
+            color: black;
+            border: 1px solid #ccc;
         }
         .stSlider, .stRadio {
-            background-color: #333333;
-            color: white;
-            border: 1px solid #444;
+            background-color: #f0f0f0;
+            color: black;
+            border: 1px solid #ccc;
         }
         .stMarkdown {
-            color: white;
+            color: black;
         }
         .css-1y5i3j3 {
-            background-color: #121212;
+            background-color: white;
         }
         .stTitle {
-            color: white;
+            color: black;
             font-weight: bold;
         }
     </style>
