@@ -12,12 +12,11 @@ from datetime import datetime
 # ✅ Configuration de la page Streamlit
 st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 
-# Date et heure actuelles
+# Date et heure actuelles en français
 current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
 
 # Affichage dans Streamlit
-st.markdown(f"<p><strong>Dernière mise à jour  :</strong> {current_datetime}</p>", unsafe_allow_html=True)
-
+st.markdown(f"<p><strong>Dernière mise à jour :</strong> {current_datetime}</p>", unsafe_allow_html=True)
 
 # ✅ Style personnalisé
 st.markdown("""
