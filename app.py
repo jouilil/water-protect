@@ -16,7 +16,7 @@ st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
 
 # Affichage dans Streamlit
-st.markdown(f"<p><strong>Date et Heure actuelles :</strong> {current_datetime}</p>", unsafe_allow_html=True)
+st.markdown(f"<p><strong>Dernière mise à jour  :</strong> {current_datetime}</p>", unsafe_allow_html=True)
 
 
 # ✅ Style personnalisé
