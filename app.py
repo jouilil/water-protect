@@ -127,48 +127,30 @@ with st.sidebar:
 st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Radar
-st.markdown("<h3>🔍 Radar Interactif : Consommation d'Eau par Opérateur</h3>", unsafe_allow_html=True)
+st.markdown("<h3>🔍 Comparaison Annuelle des Ventes</h3>", unsafe_allow_html=True)
+filtered_radar = df[df["OPERATEUR"] == selected_operator]
+all_years = pd.DataFrame({"year": [2020, 2021, 2022, 2023, 2024]})
+yearly_consumption = filtered_radar.groupby("year")["Consumption"].sum().reset_index()
+yearly_consumption = pd.merge(all_years, yearly_consumption, on="year", how="left").fillna(0)
 
-# Liste des années disponibles
-available_years = [2020, 2021, 2022, 2023, 2024]
-
-# Sélection de l'année via un selectbox
-selected_year = st.selectbox(
-    "Sélectionnez une année :", 
-    options=available_years
-)
-
-# Filtrer les données pour l'année sélectionnée
-filtered_data = df[df["year"] == selected_year]
-
-# Liste des opérateurs
-operators = filtered_data["OPERATEUR"].unique()
-
-# Préparer les données pour le radar
 fig_radar = go.Figure()
-
-# Ajouter une trace pour les opérateurs pour l'année sélectionnée
 fig_radar.add_trace(go.Scatterpolar(
-    r=[filtered_data[filtered_data["OPERATEUR"] == op]["Consumption"].sum() for op in operators],
-    theta=operators,  # Les opérateurs comme axes angulaires
+    r=yearly_consumption["Consumption"],
+    theta=yearly_consumption["year"].astype(str),
     fill='toself',
-    name=f"Consommation - {selected_year}",
+    name=selected_operator,
     line=dict(color='deepskyblue')
 ))
-
-# Mettre à jour la mise en page du radar
 fig_radar.update_layout(
     polar=dict(
-        radialaxis=dict(visible=True, range=[0, filtered_data["Consumption"].max() * 1.1]),
-        angularaxis=dict(direction='clockwise', rotation=90)  # Pour que le premier opérateur soit en haut
+        radialaxis=dict(visible=True, range=[0, yearly_consumption["Consumption"].max() * 1.1]),
+        angularaxis=dict(direction='clockwise', rotation=90)
     ),
-    title=f"Radar de Consommation d'Eau par Opérateur pour l'Année {selected_year}",
-    showlegend=True,
+    showlegend=False,
+    title=f"Radar de la Consommation d'Eau (2020–2024) - {selected_operator}",
     paper_bgcolor="white",
     font_color="black"
 )
-
-# Afficher le radar
 st.plotly_chart(fig_radar, use_container_width=True)
 
 # ✅ Ligne
