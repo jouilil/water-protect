@@ -106,6 +106,8 @@ with col2:
 
 st.markdown("""
 
+<h3>🔚 <strong> Introduction </strong></h3>
+
 <p> Ce Dashboard 💧 interactif offre une vue analytique complète des ventes d’eau par opérateur au sein des ports marocains, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
 
 <p>Le tableau de bord se structure en quatre volets principaux :</p>
@@ -306,3 +308,12 @@ st.markdown(
     "<p style='text-align: center; color: gray; font-style: italic; font-size: 14px;'>© Mai 2025 | Tableau de bord développé par M. Bougantouche & M. Bouceta</p>",
     unsafe_allow_html=True
 )
+
+st.markdown("""
+<hr>
+<h3>🔚 <strong>Conclusion</strong></h3>
+
+<p>Ce tableau de bord 💧 constitue un outil stratégique essentiel pour le suivi, l’analyse et l’anticipation des ventes d’eau dans les ports marocains. En combinant des visualisations dynamiques avec des modèles de prévision performants, il permet non seulement d’observer les tendances passées, mais aussi d’appuyer les décisions futures en matière de gestion des ressources hydriques.</p>
+
+<p>Sa structure modulaire, sa capacité à comparer les opérateurs et à intégrer des scénarios prospectifs en font une solution complète, évolutive et adaptée aux besoins des gestionnaires publics, des opérateurs privés et des institutions de régulation. Il contribue ainsi à renforcer la transparence, l'efficacité opérationnelle et la planification durable dans le secteur de l'eau portuaire.</p>
+""", unsafe_allow_html=True)
