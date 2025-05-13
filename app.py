@@ -127,7 +127,7 @@ with st.sidebar:
 st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Radar
-st.markdown("<h3>🔍 Radar Interactif : Comparaison des Opérateurs selon les Années sélectionnées</h3>", unsafe_allow_html=True)
+st.markdown("<h3>🔍 Radar Interactif : Comparaison des Années pour chaque Opérateur</h3>", unsafe_allow_html=True)
 
 # Choix interactif des années
 available_years = [2020, 2021, 2022, 2023, 2024]
@@ -144,17 +144,20 @@ else:
     # Filtrer les données en fonction des années sélectionnées
     filtered_data = df[df["year"].isin(selected_years)]
 
-    # Création du radar avec une trace par opérateur
+    # Liste des opérateurs à afficher sur les axes du radar
+    operators = filtered_data["OPERATEUR"].unique()
+
+    # Préparer les données pour le radar
     fig_radar = go.Figure()
 
-    # Ajouter une ligne pour chaque opérateur
-    for op in filtered_data["OPERATEUR"].unique():
-        op_data = filtered_data[filtered_data["OPERATEUR"] == op].sort_values("year")
+    # Ajouter une ligne pour chaque année sélectionnée
+    for year in selected_years:
+        year_data = filtered_data[filtered_data["year"] == year].pivot(index="OPERATEUR", columns="year", values="Consumption")
         fig_radar.add_trace(go.Scatterpolar(
-            r=op_data["Consumption"],
-            theta=op_data["year"].astype(str),  # Les années comme axes
+            r=year_data[year].values,  # Consommation pour l'année
+            theta=operators,  # Opérateurs comme axes angulaires
             fill='toself',
-            name=op
+            name=str(year)
         ))
 
     fig_radar.update_layout(
@@ -162,7 +165,7 @@ else:
             radialaxis=dict(visible=True, range=[0, filtered_data["Consumption"].max() * 1.1]),
             angularaxis=dict(direction='clockwise', rotation=90)
         ),
-        title="Radar de Consommation d’Eau par Opérateur et Années Sélectionnées",
+        title="Radar de Consommation d'Eau par Opérateur et Années Sélectionnées",
         showlegend=True,
         paper_bgcolor="white",
         font_color="black"
