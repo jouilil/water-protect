@@ -127,51 +127,49 @@ with st.sidebar:
 st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Radar
-# ✅ Radar avec sélection par checkbox des années
-st.markdown("<h3>🔍 Comparaison Annuelle des Ventes</h3>", unsafe_allow_html=True)
-
-filtered_radar = df[df["OPERATEUR"] == selected_operator]
+# ✅ Radar avec les opérateurs comme angles et les années sélectionnables
+st.markdown("<h3>🔍 Comparaison Annuelle par Opérateur</h3>", unsafe_allow_html=True)
 
 # Liste des années disponibles
-available_years = sorted(filtered_radar["year"].unique())
+available_years = sorted(df["year"].unique())
 
-# Sélecteurs de type checkbox pour chaque année
-st.markdown("**Sélectionnez les années à afficher dans le radar :**")
+# Checkboxes pour sélectionner les années à comparer
+st.markdown("**Sélectionnez les années à comparer :**")
 selected_years = []
 cols = st.columns(len(available_years))
 for i, year in enumerate(available_years):
     if cols[i].checkbox(str(year), value=True):
         selected_years.append(year)
 
-# Filtrer selon les années cochées
-radar_data = filtered_radar[filtered_radar["year"].isin(selected_years)]
-yearly_consumption = radar_data.groupby("year")["Consumption"].sum().reset_index()
+# Si aucune année sélectionnée, on affiche un message
+if not selected_years:
+    st.warning("Veuillez sélectionner au moins une année pour afficher le radar.")
+else:
+    # Agréger les données par opérateur et année sélectionnée
+    radar_data = df[df["year"].isin(selected_years)]
+    radar_summary = radar_data.groupby("OPERATEUR")["Consumption"].sum().reset_index()
 
-# Assurer que les années sont bien dans l'ordre
-yearly_consumption = yearly_consumption.sort_values("year")
+    # Créer le radar chart
+    fig_radar = go.Figure()
+    fig_radar.add_trace(go.Scatterpolar(
+        r=radar_summary["Consumption"],
+        theta=radar_summary["OPERATEUR"],
+        fill='toself',
+        name=f"Total {', '.join(map(str, selected_years))}",
+        line=dict(color='deepskyblue')
+    ))
 
-# Construction du graphique radar
-fig_radar = go.Figure()
-fig_radar.add_trace(go.Scatterpolar(
-    r=yearly_consumption["Consumption"],
-    theta=yearly_consumption["year"].astype(str),
-    fill='toself',
-    name=selected_operator,
-    line=dict(color='deepskyblue')
-))
+    fig_radar.update_layout(
+        polar=dict(
+            radialaxis=dict(visible=True, range=[0, radar_summary["Consumption"].max() * 1.1])
+        ),
+        showlegend=False,
+        title=f"Radar des Ventes par Opérateur ({', '.join(map(str, selected_years))})",
+        paper_bgcolor="white",
+        font_color="black"
+    )
 
-fig_radar.update_layout(
-    polar=dict(
-        radialaxis=dict(visible=True, range=[0, yearly_consumption["Consumption"].max() * 1.1]),
-        angularaxis=dict(direction='clockwise', rotation=90)
-    ),
-    showlegend=False,
-    title=f"Radar de la Consommation d'Eau - {selected_operator}",
-    paper_bgcolor="white",
-    font_color="black"
-)
-
-st.plotly_chart(fig_radar, use_container_width=True)
+    st.plotly_chart(fig_radar, use_container_width=True)
 
 
 # ✅ Ligne
