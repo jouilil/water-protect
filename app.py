@@ -126,9 +126,9 @@ st.markdown("""
 <hr>
 <h3>⚙️ <strong>Technologies et outils utilisés</strong></h3>
 
-<p>Le développement de ce Dashboard interactif repose sur une combinaison d'outils et de technologies permettant de garantir à la fois flexibilité, performance et interactivité. Voici un aperçu des principaux éléments techniques ayant contribué à sa réalisation :</p>
+<p>Le développement de ce Dashboard interactif repose sur une combinaison d'outils et de technologies permettant de garantir à la fois flexibilité, performance et interactivité.</p>
 
-<ul>
+<ul
     <li><strong>Python</strong> : Le langage de programmation principal utilisé pour la manipulation des données, le calcul des prévisions, et l'intégration des modèles de Machine Learning.</li>
     <li><strong>Streamlit</strong> : Un framework Python permettant de développer des applications web interactives. Il a été choisi pour sa simplicité d’utilisation et sa capacité à générer rapidement des interfaces utilisateur performantes et esthétiques.</li>
     <li><strong>Pandas</strong> : Une bibliothèque Python pour la gestion et la manipulation de données structurées. Elle est utilisée pour le prétraitement et l'agrégation des données historiques sur les ventes d’eau.</li>
