@@ -124,8 +124,48 @@ with st.sidebar:
     )
 
 # ✅ Titre section visualisation
-st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
+st.markdown("<h3>📊 Description et Visualisations des Données</h3>", unsafe_allow_html=True)
 
+# ✅ Ligne
+st.markdown("<h3>📉 Ventes Annuelles d'Eau </h3>", unsafe_allow_html=True)
+# ✅ Graphique des ventes annuelles de tous les opérateurs
+st.markdown("<h3>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
+
+# Regrouper les données par opérateur et année
+grouped_all = df.groupby(['year', 'OPERATEUR'])['Consumption'].sum().reset_index()
+
+# Créer la figure
+fig_all_operators = go.Figure()
+
+# Tracer une ligne par opérateur
+for operator in grouped_all['OPERATEUR'].unique():
+    operator_data = grouped_all[grouped_all['OPERATEUR'] == operator]
+    fig_all_operators.add_trace(go.Scatter(
+        x=operator_data['year'],
+        y=operator_data['Consumption'],
+        mode='lines+markers',
+        name=operator
+    ))
+
+# Mise en forme
+fig_all_operators.update_layout(
+    xaxis_title="Année",
+    yaxis_title="Consommation (m³)",
+    title="Évolution Annuelle des Ventes d'Eau par Opérateur",
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font_color="black",
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.4,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=12)
+    )
+)
+
+st.plotly_chart(fig_all_operators, use_container_width=True)
 # ✅ Radar
 # ✅ Radar avec les opérateurs comme angles et les années sélectionnables
 st.markdown("<h3>🔍 Comparaison Annuelle par Opérateur</h3>", unsafe_allow_html=True)
@@ -171,47 +211,6 @@ else:
 
     st.plotly_chart(fig_radar, use_container_width=True)
 
-
-# ✅ Ligne
-st.markdown("<h3>📉 Ventes Annuelles d'Eau </h3>", unsafe_allow_html=True)
-# ✅ Graphique des ventes annuelles de tous les opérateurs
-st.markdown("<h3>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
-
-# Regrouper les données par opérateur et année
-grouped_all = df.groupby(['year', 'OPERATEUR'])['Consumption'].sum().reset_index()
-
-# Créer la figure
-fig_all_operators = go.Figure()
-
-# Tracer une ligne par opérateur
-for operator in grouped_all['OPERATEUR'].unique():
-    operator_data = grouped_all[grouped_all['OPERATEUR'] == operator]
-    fig_all_operators.add_trace(go.Scatter(
-        x=operator_data['year'],
-        y=operator_data['Consumption'],
-        mode='lines+markers',
-        name=operator
-    ))
-
-# Mise en forme
-fig_all_operators.update_layout(
-    xaxis_title="Année",
-    yaxis_title="Consommation (m³)",
-    title="Évolution Annuelle des Ventes d'Eau par Opérateur",
-    paper_bgcolor="white",
-    plot_bgcolor="white",
-    font_color="black",
-    legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=-0.4,
-        xanchor="center",
-        x=0.5,
-        font=dict(size=12)
-    )
-)
-
-st.plotly_chart(fig_all_operators, use_container_width=True)
 
 
 # ✅ Camembert
