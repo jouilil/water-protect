@@ -124,11 +124,11 @@ with st.sidebar:
     )
 
 # ✅ Titre section visualisation
-st.markdown("<h3>📊 Description et Visualisations des Données</h3>", unsafe_allow_html=True)
+st.markdown("<h2>📊 Description et Visualisations des Données</h2>", unsafe_allow_html=True)
 
 # ✅ Ligne
 # ✅ Graphique des ventes annuelles de tous les opérateurs
-st.markdown("<h2>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h2>", unsafe_allow_html=True)
+st.markdown("<h3>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
 
 # Regrouper les données par opérateur et année
 grouped_all = df.groupby(['year', 'OPERATEUR'])['Consumption'].sum().reset_index()
@@ -149,8 +149,8 @@ for operator in grouped_all['OPERATEUR'].unique():
 # Mise en forme
 fig_all_operators.update_layout(
     xaxis_title="Année",
-    yaxis_title="Consommation (m³)",
-    title="Évolution Annuelle des Ventes d'Eau par Opérateur",
+    yaxis_title="Consommation ",
+    title="",
     paper_bgcolor="white",
     plot_bgcolor="white",
     font_color="black",
