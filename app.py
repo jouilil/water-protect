@@ -7,9 +7,20 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
+from datetime import datetime
 
 # ✅ Configuration de la page Streamlit
 st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
+
+# Date actuelle
+current_date = datetime.now().strftime("%d %B %Y")
+
+# Dernière mise à jour
+last_update_date = "13 Mai 2025"  # Remplacez par la dernière mise à jour réelle
+
+# Affichage dans Streamlit
+st.markdown(f"<p><strong>Date actuelle :</strong> {current_date}</p>", unsafe_allow_html=True)
+st.markdown(f"<p><strong>Dernière mise à jour :</strong> {last_update_date}</p>", unsafe_allow_html=True)
 
 # ✅ Style personnalisé
 st.markdown("""
@@ -268,9 +279,8 @@ st.plotly_chart(pie_fig, use_container_width=True)
 # ✅ Prévision
 st.markdown(f"<h3>🔮 Prévision des Ventes d'Eau pour {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
 st.markdown("""
-    <h3>🔮 <strong>Prévision des Ventes d'Eau</strong></h3>
 
-    <p>La section de prévision du Dashboard se concentre sur l'estimation des ventes futures d'eau à travers différents modèles de Machine Learning. En exploitant des méthodes statistiques avancées et des algorithmes d'apprentissage automatique, nous fournissons des prévisions basées sur les données historiques des opérateurs, couvrant la période de 2020 à 2026.</p>
+    <p> Cette section  se concentre sur l'estimation des ventes futures d'eau à travers différents modèles de Machine Learning. En exploitant des méthodes statistiques avancées et des algorithmes d'apprentissage automatique, nous fournissons des prévisions basées sur les données historiques des opérateurs.</p>
 
     <p>Les modèles de prévision utilisés sont :</p>
     <ul>
