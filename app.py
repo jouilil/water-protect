@@ -267,6 +267,24 @@ st.plotly_chart(pie_fig, use_container_width=True)
 
 # ✅ Prévision
 st.markdown(f"<h3>🔮 Prévision des Ventes d'Eau pour {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
+st.markdown("""
+    <h3>🔮 <strong>Prévision des Ventes d'Eau</strong></h3>
+
+    <p>La section de prévision du Dashboard se concentre sur l'estimation des ventes futures d'eau à travers différents modèles de Machine Learning. En exploitant des méthodes statistiques avancées et des algorithmes d'apprentissage automatique, nous fournissons des prévisions basées sur les données historiques des opérateurs, couvrant la période de 2020 à 2026.</p>
+
+    <p>Les modèles de prévision utilisés sont :</p>
+    <ul>
+        <li><strong>Régression Linéaire</strong> : Ce modèle simple mais puissant est utilisé pour établir une relation linéaire entre l'année et la consommation d'eau, permettant ainsi de prévoir les tendances futures.</li>
+        <li><strong>Forêt Aléatoire</strong> : Un modèle d'ensemble qui construit plusieurs arbres de décision pour améliorer la précision des prévisions, tout en réduisant le risque de surajustement (overfitting).</li>
+        <li><strong>Arbre de Décision</strong> : Un modèle non linéaire qui divise les données en sous-groupes homogènes, permettant de capturer des relations complexes dans les données de consommation.</li>
+        <li><strong>Régression à Vecteurs de Support (SVR)</strong> : Un modèle de régression robuste qui transforme les données d'entrée dans un espace de plus grande dimension afin de trouver une meilleure approximation des données non linéaires.</li>
+    </ul>
+
+    <p>Les prévisions générées par ces modèles sont accompagnées d'intervalles de confiance à 95 %, offrant ainsi une évaluation de l'incertitude associée à chaque estimation. Ces informations sont cruciales pour une prise de décision éclairée, notamment en matière de planification des ressources et de stratégie de gestion de l'eau.</p>
+
+    <p>Grâce à cette approche, les utilisateurs peuvent visualiser les tendances à court et moyen terme des ventes d'eau pour chaque opérateur, facilitant ainsi la gestion et l'optimisation des ressources.</p>
+""", unsafe_allow_html=True)
+
 actual_data, forecast_data = forecast_sales(df, selected_operator)
 forecast_fig = go.Figure()
 
@@ -320,13 +338,6 @@ forecast_fig.update_layout(
 )
 st.plotly_chart(forecast_fig, use_container_width=True)
 
-# ✅ Footer
-st.markdown("<br><br>", unsafe_allow_html=True)
-st.markdown(
-    "<p style='text-align: center; color: gray; font-style: italic; font-size: 14px;'>© Mai 2025 | Tableau de bord développé par M. Bougantouche & M. Bouceta</p>",
-    unsafe_allow_html=True
-)
-
 st.markdown("""
 <hr>
 <h3>🔚 <strong>Conclusion</strong></h3>
@@ -335,3 +346,11 @@ st.markdown("""
 
 <p>Sa structure modulaire, sa capacité à comparer les opérateurs et à intégrer des scénarios prospectifs en font une solution complète, évolutive et adaptée aux besoins des gestionnaires publics, des opérateurs privés et des institutions de régulation. Il contribue ainsi à renforcer la transparence, l'efficacité opérationnelle et la planification durable dans le secteur de l'eau portuaire.</p>
 """, unsafe_allow_html=True)
+
+# ✅ Footer
+st.markdown("<br><br>", unsafe_allow_html=True)
+st.markdown(
+    "<p style='text-align: center; color: gray; font-style: italic; font-size: 14px;'>© Mai 2025 | Tableau de bord développé par M. Bougantouche & M. Bouceta</p>",
+    unsafe_allow_html=True
+)
+
