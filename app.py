@@ -167,6 +167,7 @@ fig_all_operators.update_layout(
 st.plotly_chart(fig_all_operators, use_container_width=True)
 # ✅ Radar
 # ✅ Radar avec les opérateurs comme angles et les années sélectionnables
+# ✅ Radar avec couleurs différentes pour chaque année sélectionnée
 st.markdown("<h3>🔍 Comparaison Annuelle par Opérateur</h3>", unsafe_allow_html=True)
 
 # Liste des années disponibles
@@ -177,35 +178,40 @@ st.markdown("**Sélectionnez les années à comparer :**")
 selected_years = []
 cols = st.columns(len(available_years))
 for i, year in enumerate(available_years):
-    if cols[i].checkbox(str(year), value=True):
+    if cols[i].checkbox(str(year), value=(year == max(available_years))):  # coche la plus récente par défaut
         selected_years.append(year)
 
-# Si aucune année sélectionnée, on affiche un message
+# Si aucune année sélectionnée, afficher un avertissement
 if not selected_years:
     st.warning("Veuillez sélectionner au moins une année pour afficher le radar.")
 else:
-    # Agréger les données par opérateur et année sélectionnée
-    radar_data = df[df["year"].isin(selected_years)]
-    radar_summary = radar_data.groupby("OPERATEUR")["Consumption"].sum().reset_index()
+    # Palette de couleurs pour distinguer les années
+    color_palette = px.colors.qualitative.Set2 + px.colors.qualitative.Plotly
 
     # Créer le radar chart
     fig_radar = go.Figure()
-    fig_radar.add_trace(go.Scatterpolar(
-        r=radar_summary["Consumption"],
-        theta=radar_summary["OPERATEUR"],
-        fill='toself',
-        name=f"Total {', '.join(map(str, selected_years))}",
-        line=dict(color='deepskyblue')
-    ))
+
+    for i, year in enumerate(selected_years):
+        yearly_data = df[df["year"] == year]
+        radar_summary = yearly_data.groupby("OPERATEUR")["Consumption"].sum().reset_index()
+
+        fig_radar.add_trace(go.Scatterpolar(
+            r=radar_summary["Consumption"],
+            theta=radar_summary["OPERATEUR"],
+            fill='toself',
+            name=str(year),
+            line=dict(color=color_palette[i % len(color_palette)])
+        ))
 
     fig_radar.update_layout(
         polar=dict(
-            radialaxis=dict(visible=True, range=[0, radar_summary["Consumption"].max() * 1.1])
+            radialaxis=dict(visible=True, range=[0, df[df['year'].isin(selected_years)]['Consumption'].max() * 1.1])
         ),
-        showlegend=False,
+        showlegend=True,
         title=f"Radar des Ventes par Opérateur ({', '.join(map(str, selected_years))})",
         paper_bgcolor="white",
-        font_color="black"
+        font_color="black",
+        legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5)
     )
 
     st.plotly_chart(fig_radar, use_container_width=True)
