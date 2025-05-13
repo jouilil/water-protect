@@ -12,11 +12,6 @@ from datetime import datetime
 # ✅ Configuration de la page Streamlit
 st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 
-# Date et heure actuelles en français
-current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
-
-# Affichage dans Streamlit
-st.markdown(f"<p><strong>Dernière mise à jour :</strong> {current_datetime}</p>", unsafe_allow_html=True)
 
 # ✅ Style personnalisé
 st.markdown("""
@@ -111,13 +106,20 @@ with col1:
 with col2:
     st.markdown("<h1 style='color:blue; font-weight:bold;'>💧 Global Water Sales Dashboard</h1>", unsafe_allow_html=True)
 
+# Date et heure actuelles en français
+current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
+
+# Affichage dans Streamlit
+st.markdown(f"<p><strong>Dernière mise à jour :</strong> {current_datetime}</p>", unsafe_allow_html=True)
+
+
 st.markdown("""
 
-<h3>🔛 <strong> Introduction </strong></h3>
+<h2>🔛 <strong> 1. Introduction </strong></h2>
 
 <p> Ce Dashboard 💧 interactif offre une vue analytique complète des ventes d’eau par opérateur au sein des ports marocains, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
 
-<p>Le Dashboard se structure en quatre volets principaux :</p>
+<p>Ce Dashboard se structure en quatre volets principaux :</p>
 
 <ol>
   <li><strong>Analyse historique des ventes par opérateur</strong> : un graphique linéaire interactif permet de visualiser l’évolution annuelle des volumes d’eau vendus par chaque opérateur, mettant en évidence les tendances, pics et éventuelles ruptures.</li>
@@ -158,11 +160,11 @@ with st.sidebar:
     )
 
 # ✅ Titre section visualisation
-st.markdown("<h2>📊 Description et Visualisations des Données</h2>", unsafe_allow_html=True)
+st.markdown("<h2>📊 2. Description et Visualisations des Données</h2>", unsafe_allow_html=True)
 
 # ✅ Ligne
 # ✅ Graphique des ventes annuelles de tous les opérateurs
-st.markdown("<h3>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
+st.markdown("<h3>📈 2.1 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
 
 # Regrouper les données par opérateur et année
 grouped_all = df.groupby(['year', 'OPERATEUR'])['Consumption'].sum().reset_index()
@@ -202,7 +204,7 @@ st.plotly_chart(fig_all_operators, use_container_width=True)
 # ✅ Radar
 # ✅ Radar avec les opérateurs comme angles et les années sélectionnables
 # ✅ Radar avec couleurs différentes pour chaque année sélectionnée
-st.markdown("<h3>🔍 Comparaison Annuelle par Opérateur</h3>", unsafe_allow_html=True)
+st.markdown("<h3>🔍 2.2 Comparaison Annuelle par Opérateur</h3>", unsafe_allow_html=True)
 
 # Liste des années disponibles
 available_years = sorted(df["year"].unique())
@@ -253,7 +255,7 @@ else:
 
 
 # ✅ Camembert
-st.markdown(f"<h3>⭕ Part Annuelle de la Consommation - {selected_operator}</h3>", unsafe_allow_html=True)
+st.markdown(f"<h3>⭕ 2.3  Part Annuelle de la Consommation - {selected_operator}</h3>", unsafe_allow_html=True)
 filtered_pie = df[df["OPERATEUR"] == selected_operator]
 pie_fig = px.pie(
     filtered_pie,
@@ -273,7 +275,7 @@ pie_fig = px.pie(
 st.plotly_chart(pie_fig, use_container_width=True)
 
 # ✅ Prévision
-st.markdown(f"<h3>🔮 Prévision des Ventes d'Eau pour {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
+st.markdown(f"<h3>3. 🔮 Prévision des Ventes d'Eau pour {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
 st.markdown("""
 
     <p> Cette section  se concentre sur l'estimation des ventes futures d'eau à travers différents modèles de Machine Learning. En exploitant des méthodes statistiques avancées et des algorithmes d'apprentissage automatique, nous fournissons des prévisions basées sur les données historiques des opérateurs.</p>
@@ -346,7 +348,7 @@ st.plotly_chart(forecast_fig, use_container_width=True)
 
 st.markdown("""
 <hr>
-<h3>🔚 <strong>Conclusion</strong></h3>
+<h3>🔚 <strong>4. Conclusion</strong></h3>
 
 <p>Ce tableau de bord 💧 constitue un outil stratégique essentiel pour le suivi, l’analyse et l’anticipation des ventes d’eau dans les ports marocains. En combinant des visualisations dynamiques avec des modèles de prévision performants, il permet non seulement d’observer les tendances passées, mais aussi d’appuyer les décisions futures en matière de gestion des ressources hydriques.</p>
 
