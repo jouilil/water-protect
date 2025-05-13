@@ -161,7 +161,7 @@ line_fig = px.line(
     y="Consumption",
     color="OPERATEUR",
     markers=True,
-    title="Ventes Annuelles par Opérateur",
+    title="",
     labels={"Consumption": "Ventes d'eau", "year": "Année", "OPERATEUR": "Opérateur"}
 ).update_layout(
     paper_bgcolor="white",
