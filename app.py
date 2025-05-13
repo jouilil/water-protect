@@ -12,7 +12,7 @@ from datetime import datetime
 # ✅ Configuration de la page Streamlit
 st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 
-# Date :
+# Date actuelle
 current_date = datetime.now().strftime("%d %B %Y")
 
 
