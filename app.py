@@ -147,19 +147,18 @@ operators = filtered_data["OPERATEUR"].unique()
 fig_radar = go.Figure()
 
 # Ajouter une ligne pour chaque opérateur
-for op in operators:
-    op_data = filtered_data[filtered_data["OPERATEUR"] == op]
-    fig_radar.add_trace(go.Scatterpolar(
-        r=op_data["Consumption"],  # Consommation pour l'opérateur
-        theta=operators,  # Opérateurs comme axes angulaires
-        fill='toself',
-        name=op
-    ))
+fig_radar.add_trace(go.Scatterpolar(
+    r=[filtered_data[filtered_data["OPERATEUR"] == op]["Consumption"].sum() for op in operators],
+    theta=operators,  # Les opérateurs comme axes angulaires
+    fill='toself',
+    name=f"Consommation - {selected_year}",
+    line=dict(color='deepskyblue')
+))
 
 fig_radar.update_layout(
     polar=dict(
         radialaxis=dict(visible=True, range=[0, filtered_data["Consumption"].max() * 1.1]),
-        angularaxis=dict(direction='clockwise', rotation=90)
+        angularaxis=dict(direction='clockwise', rotation=90)  # Pour que le premier opérateur soit en haut
     ),
     title=f"Radar de Consommation d'Eau par Opérateur pour l'Année {selected_year}",
     showlegend=True,
