@@ -116,7 +116,7 @@ with col2:
 st.markdown(
     """
     This interactive dashboard provides a comprehensive overview of water sales patterns
-    by operator from 2020 to 2024. It is designed to support data-driven decision-making through three
+    by operator from 2020 to 2024 (from January to August). It is designed to support data-driven decision-making through three
     main visual components:
 
     1. A multi-operator time series chart illustrating historical trends;
