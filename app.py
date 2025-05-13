@@ -12,12 +12,12 @@ from datetime import datetime
 # ✅ Configuration de la page Streamlit
 st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
 
-# Dernière mise à jour
-last_update_date = "13 Mai 2025"  # Remplacez par la dernière mise à jour réelle
+# Date actuelle
+current_date = datetime.now().strftime("%d %B %Y")
+
 
 # Affichage dans Streamlit
 st.markdown(f"<p><strong>Date actuelle :</strong> {current_date}</p>", unsafe_allow_html=True)
-st.markdown(f"<p><strong>Dernière mise à jour :</strong> {last_update_date}</p>", unsafe_allow_html=True)
 
 # ✅ Style personnalisé
 st.markdown("""
