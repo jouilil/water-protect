@@ -105,12 +105,20 @@ with col2:
     st.markdown("<h1 style='color:blue; font-weight:bold;'>💧 Global Water Sales Dashboard</h1>", unsafe_allow_html=True)
 
 st.markdown("""
-    Ce tableau de bord interactif fournit une vue d'ensemble complète des ventes d'eau
-    par opérateur de 2020 à 2024 (janvier à août). Il permet :
+<h2>💧 <strong>Présentation du Tableau de Bord</strong></h2>
 
-    1. Une visualisation des tendances historiques par opérateur ;
-    2. Une répartition annuelle des ventes sous forme de graphique circulaire ;
-    3. Une prévision basée sur plusieurs modèles de Machine Learning.
+<p>Ce tableau de bord interactif offre une vue analytique complète des ventes d’eau par opérateur au sein des ports marocains, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
+
+<p>Le tableau de bord se structure en quatre volets principaux :</p>
+
+<ol>
+  <li><strong>Analyse historique des ventes par opérateur</strong> : un graphique linéaire interactif permet de visualiser l’évolution annuelle des volumes d’eau vendus par chaque opérateur, mettant en évidence les tendances, pics et éventuelles ruptures.</li>
+  <li><strong>Répartition annuelle sous forme de graphique circulaire</strong> : cette visualisation met en relief la part relative de chaque année dans la consommation globale d’un opérateur donné, facilitant la comparaison entre exercices.</li>
+  <li><strong>Comparaison inter-opérateurs par radar</strong> : une représentation radiale permet de comparer visuellement les volumes annuels de ventes entre opérateurs, avec la possibilité de sélectionner dynamiquement les années à analyser.</li>
+  <li><strong>Module de prévision par Machine Learning</strong> : basé sur plusieurs algorithmes (régression linéaire, forêt aléatoire, arbre de décision et SVM), ce module propose des projections de la demande future, assorties d’intervalles de confiance pour mieux anticiper les évolutions.</li>
+</ol>
+
+<p>Grâce à une interface épurée, des filtres dynamiques et des représentations graphiques adaptées, ce tableau de bord constitue un outil décisionnel robuste pour les gestionnaires, les analystes et les acteurs institutionnels impliqués dans la gestion durable des ressources hydriques.</p>
 """, unsafe_allow_html=True)
 
 # ✅ Barre latérale
