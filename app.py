@@ -110,7 +110,7 @@ with col1:
     st.image("logo.JPG", width=130)
 with col2:
     st.markdown("""
-        <h1 style="color: blue; font-weight: bold;">💧 Tableau de Bord Global des Ventes d'Eau</h1>
+        <h1 style="color: blue; font-weight: bold;">💧 Global Water Sales Dashboard</h1>
     """, unsafe_allow_html=True)
 
 st.markdown(
@@ -177,8 +177,8 @@ fig_radar.update_layout(
     ),
     showlegend=False,
     title=f"Radar de la Consommation d'Eau (2020–2024) - {selected_operator}",
-    paper_bgcolor="#121212",
-    font_color="white"
+    paper_bgcolor="white",
+    font_color="black"
 )
 st.plotly_chart(fig_radar, use_container_width=True)
 
@@ -191,11 +191,11 @@ line_fig = px.line(
     color="OPERATEUR",
     markers=True,
     title="Ventes Annuelles par Opérateur",
-    labels={"Consumption": "Ventes d'eau (m³)", "year": "Année", "OPERATEUR": "Opérateur"}
+    labels={"Consumption": "Ventes d'eau ", "year": "Année", "OPERATEUR": "Opérateur"}
 ).update_layout(
-    paper_bgcolor="#121212",
-    plot_bgcolor="#121212",
-    font_color="white",
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font_color="black",
     xaxis=dict(tickmode='linear', tickformat='d'),
     legend=dict(
         orientation="h",
@@ -222,9 +222,9 @@ pie_fig = px.pie(
     hole=0.3,
     labels={"year": "Année", "Consumption": "Ventes (m³)"}
 ).update_layout(
-    paper_bgcolor="#121212",
-    plot_bgcolor="#121212",
-    font_color="white",
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font_color="black",
     legend=dict(
         orientation="h",
         yanchor="bottom",
@@ -284,10 +284,10 @@ for model_name in selected_models:
 
 forecast_fig.update_layout(
     xaxis_title="Année",
-    yaxis_title="Ventes (m³)",
-    paper_bgcolor="#121212",
-    plot_bgcolor="#121212",
-    font_color="white",
+    yaxis_title="Ventes",
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    font_color="black",
     legend=dict(
         orientation="h", 
         yanchor="bottom", 
