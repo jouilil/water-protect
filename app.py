@@ -127,30 +127,41 @@ with st.sidebar:
 st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Radar
-st.markdown("<h3>🔍 Comparaison Annuelle des Ventes</h3>", unsafe_allow_html=True)
-filtered_radar = df[df["OPERATEUR"] == selected_operator]
-all_years = pd.DataFrame({"year": [2020, 2021, 2022, 2023, 2024]})
-yearly_consumption = filtered_radar.groupby("year")["Consumption"].sum().reset_index()
-yearly_consumption = pd.merge(all_years, yearly_consumption, on="year", how="left").fillna(0)
+st.markdown("<h3>🔍 Comparaison Annuelle des Ventes par Opérateur</h3>", unsafe_allow_html=True)
 
+# Créer les combinaisons année-opérateur complètes
+all_combinations = pd.MultiIndex.from_product(
+    [[2020, 2021, 2022, 2023, 2024], df["OPERATEUR"].unique()],
+    names=["year", "OPERATEUR"]
+).to_frame(index=False)
+
+# Aggrégation des données
+grouped = df.groupby(["year", "OPERATEUR"])["Consumption"].sum().reset_index()
+full_data = pd.merge(all_combinations, grouped, on=["year", "OPERATEUR"], how="left").fillna(0)
+
+# Création du radar
 fig_radar = go.Figure()
-fig_radar.add_trace(go.Scatterpolar(
-    r=yearly_consumption["Consumption"],
-    theta=yearly_consumption["year"].astype(str),
-    fill='toself',
-    name=selected_operator,
-    line=dict(color='deepskyblue')
-))
+
+for year in sorted(full_data["year"].unique()):
+    data_year = full_data[full_data["year"] == year]
+    fig_radar.add_trace(go.Scatterpolar(
+        r=data_year["Consumption"],
+        theta=data_year["OPERATEUR"],
+        fill='toself',
+        name=str(year)
+    ))
+
 fig_radar.update_layout(
     polar=dict(
-        radialaxis=dict(visible=True, range=[0, yearly_consumption["Consumption"].max() * 1.1]),
+        radialaxis=dict(visible=True, range=[0, full_data["Consumption"].max() * 1.1]),
         angularaxis=dict(direction='clockwise', rotation=90)
     ),
-    showlegend=False,
-    title=f"Radar de la Consommation d'Eau (2020–2024) - {selected_operator}",
+    title="Radar de la Consommation d'Eau par Opérateur (2020–2024)",
+    showlegend=True,
     paper_bgcolor="white",
     font_color="black"
 )
+
 st.plotly_chart(fig_radar, use_container_width=True)
 
 # ✅ Ligne
@@ -161,17 +172,42 @@ line_fig = px.line(
     y="Consumption",
     color="OPERATEUR",
     markers=True,
-    title="",
-    labels={"Consumption": "Ventes d'eau", "year": "Année", "OPERATEUR": "Opérateur"}
-).update_layout(
+    labels={"Consumption": "Ventes d'eau (m³)", "year": "Année", "OPERATEUR": "Opérateur"},
+    color_discrete_sequence=px.colors.qualitative.Set2  # Palette harmonieuse
+)
+
+line_fig.update_traces(line=dict(width=3), marker=dict(size=6, symbol="circle"))
+
+line_fig.update_layout(
+    title_text="Évolution des ventes annuelles d'eau par opérateur (2020–2024)",
+    title_font=dict(size=18, color='black'),
+    xaxis=dict(
+        tickmode='linear',
+        tickformat='d',
+        title='Année',
+        title_font=dict(size=14),
+        tickfont=dict(size=12)
+    ),
+    yaxis=dict(
+        title='Ventes d\'eau (m³)',
+        title_font=dict(size=14),
+        tickfont=dict(size=12)
+    ),
+    legend=dict(
+        title='',
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=12),
+        bgcolor='rgba(0,0,0,0)'
+    ),
     paper_bgcolor="white",
     plot_bgcolor="white",
-    font_color="black",
-    xaxis=dict(tickmode='linear', tickformat='d'),
-    legend=dict(orientation="h", yanchor="bottom", y=1.05, xanchor="center", x=0.5,
-                font=dict(size=12, color='black'),
-                bgcolor='rgba(0, 0, 0, 0.05)', borderwidth=0)
+    font=dict(color="black")
 )
+
 st.plotly_chart(line_fig, use_container_width=True)
 
 # ✅ Camembert
