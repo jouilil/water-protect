@@ -127,9 +127,8 @@ with st.sidebar:
 st.markdown("<h3>📊 Description et Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Ligne
-st.markdown("<h3>📉 Ventes Annuelles d'Eau </h3>", unsafe_allow_html=True)
 # ✅ Graphique des ventes annuelles de tous les opérateurs
-st.markdown("<h3>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h3>", unsafe_allow_html=True)
+st.markdown("<h2>📈 Ventes Annuelles d'Eau - Tous les Opérateurs</h2>", unsafe_allow_html=True)
 
 # Regrouper les données par opérateur et année
 grouped_all = df.groupby(['year', 'OPERATEUR'])['Consumption'].sum().reset_index()
