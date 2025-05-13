@@ -155,49 +155,52 @@ st.plotly_chart(fig_radar, use_container_width=True)
 
 # ✅ Ligne
 st.markdown("<h3>📉 Ventes Annuelles d'Eau par Opérateur</h3>", unsafe_allow_html=True)
-line_fig = px.line(
-    df,
-    x="year",
-    y="Consumption",
-    color="OPERATEUR",
-    markers=True,
-    labels={"Consumption": "Ventes d'eau (m³)", "year": "Année", "OPERATEUR": "Opérateur"},
-    color_discrete_sequence=px.colors.qualitative.Set2  # Palette harmonieuse
-)
+# ✅ Radar avec Checkboxes
+st.markdown("<h3>🔍 Comparaison Annuelle des Ventes</h3>", unsafe_allow_html=True)
 
-line_fig.update_traces(line=dict(width=3), marker=dict(size=6, symbol="circle"))
+# Sélection des années via checkboxes
+years_selected = []
+for year in range(2020, 2025):  # Ajustez les années si nécessaire
+    if st.checkbox(f"Afficher les ventes de l'année {year}", value=True):
+        years_selected.append(year)
 
-line_fig.update_layout(
-    title_text="Évolution des ventes annuelles d'eau par opérateur (2020–2024)",
-    title_font=dict(size=18, color='black'),
-    xaxis=dict(
-        tickmode='linear',
-        tickformat='d',
-        title='Année',
-        title_font=dict(size=14),
-        tickfont=dict(size=12)
+# Filtrage des données par opérateur et années sélectionnées
+filtered_radar = df[df["OPERATEUR"] == selected_operator]
+yearly_consumption = filtered_radar[filtered_radar["year"].isin(years_selected)].groupby("year")["Consumption"].sum().reset_index()
+
+# Si aucune année n'est sélectionnée, définir une valeur par défaut
+if len(years_selected) == 0:
+    years_selected = [2020, 2021, 2022, 2023, 2024]
+
+# Données de consommation par année
+all_years = pd.DataFrame({"year": years_selected})
+yearly_consumption = pd.merge(all_years, yearly_consumption, on="year", how="left").fillna(0)
+
+# Création du graphique radar
+fig_radar = go.Figure()
+fig_radar.add_trace(go.Scatterpolar(
+    r=yearly_consumption["Consumption"],
+    theta=yearly_consumption["year"].astype(str),
+    fill='toself',
+    name=selected_operator,
+    line=dict(color='deepskyblue')
+))
+
+# Mise à jour du layout du graphique radar
+fig_radar.update_layout(
+    polar=dict(
+        radialaxis=dict(visible=True, range=[0, yearly_consumption["Consumption"].max() * 1.1]),
+        angularaxis=dict(direction='clockwise', rotation=90)
     ),
-    yaxis=dict(
-        title='Ventes d\'eau (m³)',
-        title_font=dict(size=14),
-        tickfont=dict(size=12)
-    ),
-    legend=dict(
-        title='',
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="center",
-        x=0.5,
-        font=dict(size=12),
-        bgcolor='rgba(0,0,0,0)'
-    ),
+    showlegend=False,
+    title=f"Radar de la Consommation d'Eau (2020–2024) - {selected_operator}",
     paper_bgcolor="white",
-    plot_bgcolor="white",
-    font=dict(color="black")
+    font_color="black"
 )
 
-st.plotly_chart(line_fig, use_container_width=True)
+# Affichage du graphique radar
+st.plotly_chart(fig_radar, use_container_width=True)
+
 
 # ✅ Camembert
 st.markdown(f"<h3>⭕ Part Annuelle de la Consommation - {selected_operator}</h3>", unsafe_allow_html=True)
