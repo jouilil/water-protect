@@ -8,10 +8,10 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
 
-# Set Streamlit page configuration (must be first)
-st.set_page_config(layout="wide", page_title="Global Water Sales Dashboard")
+# ✅ Configuration de la page Streamlit (doit être placée en premier)
+st.set_page_config(layout="wide", page_title="Tableau de Bord Global des Ventes d'Eau")
 
-# ✅ Custom Styling for Dark Theme and Bold White Title
+# ✅ Style personnalisé pour thème sombre et titre en blanc gras
 st.markdown("""
     <style>
         body {
@@ -43,7 +43,7 @@ st.markdown("""
         .stMarkdown {
             color: white;
         }
-        .css-1y5i3j3 {  /* Sidebar specific styling */
+        .css-1y5i3j3 {
             background-color: #121212;
         }
         .stTitle {
@@ -53,22 +53,22 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ✅ Load the dataset
+# ✅ Charger les données
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/cc1.csv")
-    df['year'] = df['year'].astype(str).str.extract(r'(\d{4})')  # Extract valid 4-digit years
-    df = df.dropna(subset=['year'])  # Drop rows where year couldn't be extracted
+    df['year'] = df['year'].astype(str).str.extract(r'(\d{4})')  # Extraire les années valides
+    df = df.dropna(subset=['year'])  # Supprimer les lignes sans année valide
     df['year'] = df['year'].astype(int)
-    
-    # Clean the 'Consumption' column to remove spaces and convert to float
+
+    # Nettoyer la colonne 'Consumption' pour supprimer les espaces et convertir en float
     df['Consumption'] = df['Consumption'].astype(str).str.replace(' ', '').astype(float)
 
     return df
 
 df = load_data()
 
-# ✅ Forecast function with multiple ML models
+# ✅ Fonction de prévision avec plusieurs modèles ML
 @st.cache_data
 def forecast_sales(df, operator):
     operator_data = df[df['OPERATEUR'] == operator].copy()
@@ -77,12 +77,12 @@ def forecast_sales(df, operator):
     X = operator_data[['year']]
     y = operator_data['Consumption']
 
-    # Models
+    # Modèles
     models = {
-        "Linear Regression": LinearRegression(),
-        "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42),
-        "Decision Tree": DecisionTreeRegressor(random_state=42),
-        "Support Vector Regression": SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
+        "Régression Linéaire": LinearRegression(),
+        "Forêt Aléatoire": RandomForestRegressor(n_estimators=100, random_state=42),
+        "Arbre de Décision": DecisionTreeRegressor(random_state=42),
+        "Régression à Vecteurs de Support": SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
     }
 
     future_years = np.arange(2020, 2027)
@@ -104,62 +104,58 @@ def forecast_sales(df, operator):
 
     return operator_data, forecast_data
 
-# ✅ Dashboard Header with Bold and White Title
+# ✅ En-tête du tableau de bord
 col1, col2 = st.columns([1, 3])
 with col1:
     st.image("logo.JPG", width=130)
 with col2:
     st.markdown("""
-        <h1 style="color: blue; font-weight: bold;">💧 Global Water Sales Dashboard</h1>
+        <h1 style="color: blue; font-weight: bold;">💧 Tableau de Bord Global des Ventes d'Eau</h1>
     """, unsafe_allow_html=True)
 
 st.markdown(
     """
-    This interactive dashboard provides a comprehensive overview of water sales patterns
-    by operator from 2020 to 2024 (from January to August). It is designed to support data-driven decision-making through three
-    main visual components:
+    Ce tableau de bord interactif fournit une vue d'ensemble complète des ventes d'eau
+    par opérateur de 2020 à 2024 (de janvier à août). Il est conçu pour faciliter la prise de décision fondée sur les données à travers trois
+    composants visuels principaux :
 
-    1. A multi-operator time series chart illustrating historical trends;
+    1. Une série chronologique multi-opérateurs montrant les tendances historiques ;
 
-    2. A dynamic pie chart showing the annual distribution of sales for a selected operator;
+    2. Un graphique circulaire dynamique présentant la répartition annuelle des ventes pour un opérateur sélectionné ;
 
-    3. A predictive analytics section projecting future water sales using multiple machine learning models
-    including Linear Regression, Random Forest, Decision Tree, and SVM models, with confidence intervals.
+    3. Une section de prévisions utilisant plusieurs modèles d'apprentissage automatique
+    incluant la régression linéaire, la forêt aléatoire, l'arbre de décision et la SVM, avec des intervalles de confiance.
 
-    The dashboard enables users to explore past performance, assess current usage, and anticipate future needs
-    within a unified analytical framework.
+    Le tableau de bord permet aux utilisateurs d'explorer les performances passées, d’évaluer la consommation actuelle
+    et d’anticiper les besoins futurs dans un cadre analytique unifié.
     """,
     unsafe_allow_html=True
 )
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ✅ Sidebar for Controls
+# ✅ Barre latérale de contrôle
 with st.sidebar:
-    st.header("⚙️ Controls")
-    selected_operator = st.selectbox("Select an Operator:", sorted(df["OPERATEUR"].unique()))
+    st.header("⚙️ Contrôles")
+    selected_operator = st.selectbox("Sélectionnez un opérateur :", sorted(df["OPERATEUR"].unique()))
     selected_models = st.multiselect(
-        "Select Forecast Models:",
-        ["Linear Regression", "Random Forest", "Decision Tree", "Support Vector Regression"],
-        default=["Linear Regression", "Random Forest"]
+        "Sélectionnez les modèles de prévision :",
+        ["Régression Linéaire", "Forêt Aléatoire", "Arbre de Décision", "Régression à Vecteurs de Support"],
+        default=["Régression Linéaire", "Forêt Aléatoire"]
     )
 
-# ✅ Main Area for Charts
-st.markdown("<h3 style='color:white; font-weight:bold;'>📊 Data Visualizations</h3>", unsafe_allow_html=True)
+# ✅ Zone principale pour les graphiques
+st.markdown("<h3 style='color:white; font-weight:bold;'>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
+# ✅ Graphique radar annuel
+st.markdown("<h3 style='color:white; font-weight:bold;'>🔍 Comparaison Annuelle des Ventes</h3>", unsafe_allow_html=True)
 
-# ✅ Nouveau graphique radar : Consommation par année (2020–2024 forcées)
-st.markdown("<h3 style='color:white; font-weight:bold;'>🔍 Annual Sales Comparison</h3>", unsafe_allow_html=True)
-
-# Filtrer les données pour l'opérateur sélectionné
 filtered_radar = df[df["OPERATEUR"] == selected_operator]
 
-# Forcer les années 2020 à 2024
 all_years = pd.DataFrame({"year": [2020, 2021, 2022, 2023, 2024]})
 yearly_consumption = filtered_radar.groupby("year")["Consumption"].sum().reset_index()
 yearly_consumption = pd.merge(all_years, yearly_consumption, on="year", how="left").fillna(0)
 
 fig_radar = go.Figure()
-
 fig_radar.add_trace(go.Scatterpolar(
     r=yearly_consumption["Consumption"],
     theta=yearly_consumption["year"].astype(str),
@@ -184,19 +180,18 @@ fig_radar.update_layout(
     paper_bgcolor="#121212",
     font_color="white"
 )
-
 st.plotly_chart(fig_radar, use_container_width=True)
 
-# First Chart: Line Chart with its title
-st.markdown("<h3 style='color:white; font-weight:bold;'>📉 Annual Water Sales by Operator</h3>", unsafe_allow_html=True)
+# ✅ Graphique en ligne
+st.markdown("<h3 style='color:white; font-weight:bold;'>📉 Ventes Annuelles d'Eau par Opérateur</h3>", unsafe_allow_html=True)
 line_fig = px.line(
     df,
     x="year",
     y="Consumption",
     color="OPERATEUR",
     markers=True,
-    title="Annual Sales by Operator",
-    labels={"Consumption": "Water Sales (m³)", "year": "Year", "OPERATEUR": "Operator"}
+    title="Ventes Annuelles par Opérateur",
+    labels={"Consumption": "Ventes d'eau (m³)", "year": "Année", "OPERATEUR": "Opérateur"}
 ).update_layout(
     paper_bgcolor="#121212",
     plot_bgcolor="#121212",
@@ -215,17 +210,17 @@ line_fig = px.line(
 )
 st.plotly_chart(line_fig, use_container_width=True)
 
-# Second Chart: Pie Chart in a new section
-st.markdown(f"<h3 style='color:white; font-weight:bold;'>⭕ Yearly Consumption Share for {selected_operator}</h3>", unsafe_allow_html=True)
+# ✅ Graphique circulaire
+st.markdown(f"<h3 style='color:white; font-weight:bold;'>⭕ Part Annuelle de la Consommation - {selected_operator}</h3>", unsafe_allow_html=True)
 
 filtered_pie = df[df["OPERATEUR"] == selected_operator]
 pie_fig = px.pie(
     filtered_pie,
     names="year",
     values="Consumption",
-    title=f"Yearly Consumption Share for {selected_operator}",
+    title=f"Répartition Annuelle de la Consommation - {selected_operator}",
     hole=0.3,
-    labels={"year": "Year", "Consumption": "Sales (m³)"}
+    labels={"year": "Année", "Consumption": "Ventes (m³)"}
 ).update_layout(
     paper_bgcolor="#121212",
     plot_bgcolor="#121212",
@@ -243,8 +238,8 @@ pie_fig = px.pie(
 )
 st.plotly_chart(pie_fig, use_container_width=True)
 
-# Forecast Chart
-st.markdown(f"<h3 style='color:white; font-weight:bold;'>🔮 Forecasted Water Sales for {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
+# ✅ Graphique de prévision
+st.markdown(f"<h3 style='color:white; font-weight:bold;'>🔮 Prévision des Ventes d'Eau pour {selected_operator} (2020–2026)</h3>", unsafe_allow_html=True)
 actual_data, forecast_data = forecast_sales(df, selected_operator)
 forecast_fig = go.Figure()
 
@@ -252,15 +247,15 @@ forecast_fig.add_trace(go.Scatter(
     x=actual_data['year'],
     y=actual_data['Consumption'],
     mode='lines+markers',
-    name='Actual',
+    name='Réel',
     line=dict(color='cyan')
 ))
 
 model_colors = {
-    "Linear Regression": '#FFA500',
-    "Random Forest": '#228B22',
-    "Decision Tree": '#1E90FF',
-    "Support Vector Regression": '#800080'
+    "Régression Linéaire": '#FFA500',
+    "Forêt Aléatoire": '#228B22',
+    "Arbre de Décision": '#1E90FF',
+    "Régression à Vecteurs de Support": '#800080'
 }
 
 for model_name in selected_models:
@@ -273,7 +268,7 @@ for model_name in selected_models:
             x=forecast['year'],
             y=forecast['prediction'],
             mode='lines+markers',
-            name=f'{model_name} Forecast',
+            name=f'Prévision {model_name}',
             line=dict(color=color, dash='dash')
         ))
 
@@ -284,12 +279,12 @@ for model_name in selected_models:
             fillcolor=f'rgba{rgb + (0.2,)}',
             line=dict(color='rgba(255,255,255,0)'),
             hoverinfo="skip",
-            name=f'{model_name} 95% CI'
+            name=f'{model_name} IC à 95%'
         ))
 
 forecast_fig.update_layout(
-    xaxis_title="Year",
-    yaxis_title="Sales (m³)",
+    xaxis_title="Année",
+    yaxis_title="Ventes (m³)",
     paper_bgcolor="#121212",
     plot_bgcolor="#121212",
     font_color="white",
@@ -306,8 +301,9 @@ forecast_fig.update_layout(
 )
 st.plotly_chart(forecast_fig, use_container_width=True)
 
+# ✅ Pied de page
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown(
-    "<p style='text-align: center; color: lightgray; font-style: italic; font-size: 14px;'>© May, 2025 | Dashboard Developed by Mr. Bougantouche & Mr. Bouceta</p>",
+    "<p style='text-align: center; color: lightgray; font-style: italic; font-size: 14px;'>© Mai 2025 | Tableau de bord développé par M. Bougantouche & M. Bouceta</p>",
     unsafe_allow_html=True
 )
