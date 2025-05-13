@@ -127,50 +127,49 @@ with st.sidebar:
 st.markdown("<h3>📊 Visualisations des Données</h3>", unsafe_allow_html=True)
 
 # ✅ Radar
-st.markdown("<h3>🔍 Radar Interactif : Comparaison des Opérateurs pour les Années Sélectionnées</h3>", unsafe_allow_html=True)
+st.markdown("<h3>🔍 Radar Interactif : Consommation d'Eau par Opérateur</h3>", unsafe_allow_html=True)
 
-# Choix des années via un multiselect
+# Liste des années disponibles
 available_years = [2020, 2021, 2022, 2023, 2024]
-selected_years = st.multiselect(
-    "Sélectionnez une ou plusieurs années :", 
-    options=available_years, 
-    default=[2020]  # Valeur par défaut
+
+# Sélection de l'année via un selectbox
+selected_year = st.selectbox(
+    "Sélectionnez une année :", 
+    options=available_years
 )
 
-# Vérifier si au moins une année est sélectionnée
-if selected_years:
-    # Filtrer les données pour les années sélectionnées
-    filtered_data = df[df["year"].isin(selected_years)]
-    
-    # Liste des opérateurs à afficher sur les axes du radar
-    operators = filtered_data["OPERATEUR"].unique()
+# Filtrer les données pour l'année sélectionnée
+filtered_data = df[df["year"] == selected_year]
 
-    # Préparer les données pour le radar
-    fig_radar = go.Figure()
+# Liste des opérateurs
+operators = filtered_data["OPERATEUR"].unique()
 
-    # Ajouter une ligne pour chaque opérateur, en combinant les années sélectionnées
-    fig_radar.add_trace(go.Scatterpolar(
-        r=[filtered_data[filtered_data["OPERATEUR"] == op]["Consumption"].sum() for op in operators],
-        theta=operators,  # Les opérateurs comme axes angulaires
-        fill='toself',
-        name=f"Consommation - {', '.join(map(str, selected_years))}",
-        line=dict(color='deepskyblue')
-    ))
+# Préparer les données pour le radar
+fig_radar = go.Figure()
 
-    fig_radar.update_layout(
-        polar=dict(
-            radialaxis=dict(visible=True, range=[0, filtered_data["Consumption"].max() * 1.1]),
-            angularaxis=dict(direction='clockwise', rotation=90)  # Pour que le premier opérateur soit en haut
-        ),
-        title=f"Radar de Consommation d'Eau par Opérateur pour les Années {', '.join(map(str, selected_years))}",
-        showlegend=True,
-        paper_bgcolor="white",
-        font_color="black"
-    )
+# Ajouter une trace pour les opérateurs pour l'année sélectionnée
+fig_radar.add_trace(go.Scatterpolar(
+    r=[filtered_data[filtered_data["OPERATEUR"] == op]["Consumption"].sum() for op in operators],
+    theta=operators,  # Les opérateurs comme axes angulaires
+    fill='toself',
+    name=f"Consommation - {selected_year}",
+    line=dict(color='deepskyblue')
+))
 
-    st.plotly_chart(fig_radar, use_container_width=True)
-else:
-    st.warning("Veuillez sélectionner au moins une année.")
+# Mettre à jour la mise en page du radar
+fig_radar.update_layout(
+    polar=dict(
+        radialaxis=dict(visible=True, range=[0, filtered_data["Consumption"].max() * 1.1]),
+        angularaxis=dict(direction='clockwise', rotation=90)  # Pour que le premier opérateur soit en haut
+    ),
+    title=f"Radar de Consommation d'Eau par Opérateur pour l'Année {selected_year}",
+    showlegend=True,
+    paper_bgcolor="white",
+    font_color="black"
+)
+
+# Afficher le radar
+st.plotly_chart(fig_radar, use_container_width=True)
 
 # ✅ Ligne
 st.markdown("<h3>📉 Ventes Annuelles d'Eau par Opérateur</h3>", unsafe_allow_html=True)
