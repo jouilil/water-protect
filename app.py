@@ -110,7 +110,7 @@ st.markdown("""
 
 <p> Ce Dashboard 💧 interactif offre une vue analytique complète des ventes d’eau par opérateur au sein des ports marocains, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
 
-<p>Le tableau de bord se structure en quatre volets principaux :</p>
+<p>Le Dashboard se structure en quatre volets principaux :</p>
 
 <ol>
   <li><strong>Analyse historique des ventes par opérateur</strong> : un graphique linéaire interactif permet de visualiser l’évolution annuelle des volumes d’eau vendus par chaque opérateur, mettant en évidence les tendances, pics et éventuelles ruptures.</li>
@@ -120,6 +120,24 @@ st.markdown("""
 </ol>
 
 <p>Grâce à une interface épurée, des filtres dynamiques et des représentations graphiques adaptées, ce tableau de bord constitue un outil décisionnel robuste pour les gestionnaires, les analystes et les acteurs institutionnels impliqués dans la gestion durable des ressources hydriques.</p>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<hr>
+<h3>⚙️ <strong>Technologies et outils utilisés</strong></h3>
+
+<p>Le développement de ce Dashboard interactif repose sur une combinaison d'outils et de technologies permettant de garantir à la fois flexibilité, performance et interactivité. Voici un aperçu des principaux éléments techniques ayant contribué à sa réalisation :</p>
+
+<ul>
+    <li><strong>Python</strong> : Le langage de programmation principal utilisé pour la manipulation des données, le calcul des prévisions, et l'intégration des modèles de Machine Learning.</li>
+    <li><strong>Streamlit</strong> : Un framework Python permettant de développer des applications web interactives. Il a été choisi pour sa simplicité d’utilisation et sa capacité à générer rapidement des interfaces utilisateur performantes et esthétiques.</li>
+    <li><strong>Pandas</strong> : Une bibliothèque Python pour la gestion et la manipulation de données structurées. Elle est utilisée pour le prétraitement et l'agrégation des données historiques sur les ventes d’eau.</li>
+    <li><strong>Plotly</strong> : Utilisée pour créer des visualisations interactives. Plotly permet de générer des graphiques dynamiques et des cartes, adaptés aux besoins de visualisation des tendances de ventes et des prévisions.</li>
+    <li><strong>Scikit-learn</strong> : Bibliothèque spécialisée dans le Machine Learning, utilisée pour les modèles de régression et de prévision, notamment la régression linéaire, l'arbre de décision et la forêt aléatoire.</li>
+    <li><strong>Visual Studio Code (VS Code)</strong> : L'environnement de développement intégré (IDE) choisi pour la rédaction du code, permettant une gestion claire du projet grâce à ses fonctionnalités de débogage, de gestion de versions et d'intégration d'extensions Python.</li>
+</ul>
+
+<p>En combinant ces outils, le tableau de bord offre une solution robuste et évolutive pour l'analyse des ventes d'eau, capable de répondre à différents besoins d'analyse et de décision, tout en restant facile à utiliser pour les utilisateurs finaux.</p>
 """, unsafe_allow_html=True)
 
 # ✅ Barre latérale
