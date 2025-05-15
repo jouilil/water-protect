@@ -125,7 +125,7 @@ if page == "Données officielles":
 
     <h2> <strong> 1. Introduction </strong></h2>
 
-    <p> Ce Dashboard 💧 interactif offre une vue analytique complète de la consommation d’eau par opérateur au sein des ports marocains, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
+    <p> Ce Dashboard 💧 interactif offre une vue analytique complète de la consommation d’eau par opérateur au sein du port de casa, couvrant la période allant de 2020 à 2024 (janvier à août). Développé pour faciliter la compréhension des dynamiques de consommation et appuyer la prise de décision stratégique, il intègre plusieurs modules de visualisation et d’analyse prédictive.</p>
 
     <p>Ce Dashboard se structure en quatre volets principaux :</p>
 
@@ -368,7 +368,7 @@ if page == "Données officielles":
     <hr>
     <h3>🔚 <strong>4. Conclusion</strong></h3>
 
-    <p>Ce tableau de bord 💧 constitue un outil stratégique essentiel pour le suivi, l’analyse et l’anticipation de la consommation d’eau dans les ports marocains. En combinant des visualisations dynamiques avec des modèles de prévision performants, il permet non seulement d’observer les tendances passées, mais aussi d’appuyer les décisions futures en matière de gestion des ressources hydriques.</p>
+    <p>Ce tableau de bord 💧 constitue un outil stratégique essentiel pour le suivi, l’analyse et l’anticipation de la consommation d’eau dans les ports marocains en particulier dans le port de casablanca. En combinant des visualisations dynamiques avec des modèles de prévision performants, il permet non seulement d’observer les tendances passées, mais aussi d’appuyer les décisions futures en matière de gestion des ressources hydriques.</p>
 
     <p>Sa structure modulaire, sa capacité à comparer les opérateurs et à intégrer des scénarios prospectifs en font une solution complète, évolutive et adaptée aux besoins des gestionnaires publics, des opérateurs privés et des institutions de régulation. Il contribue ainsi à renforcer la transparence, l'efficacité opérationnelle et la planification durable dans le secteur de l'eau portuaire.</p>
     """, unsafe_allow_html=True)
@@ -413,7 +413,7 @@ elif page == "Enquête Terrain":
         st.markdown("""
         <div class="intro-box">
             <h4>Introduction</h4>
-            <p>L’objectif principal de cette analyse est de présenter les résultats de l’enquête terrain, réalisée entre XX et YY 2025 sur  la consommation domestique d’eau  des entreprises du Port de Casablanca. 
+            <p>L’objectif principal de cette analyse est de présenter les résultats de l’enquête terrain, réalisée entre XX 2025 et YY 2025 sur  la consommation domestique d’eau  des entreprises du Port de Casablanca. 
 
         Objectifs spécifiques de l'étude :
         1. Révéler des tendances statistiques : identifier les patterns de consommation domestique d’eau par types d’équipements et opérateurs.
