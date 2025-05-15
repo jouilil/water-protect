@@ -380,422 +380,423 @@ if page == "Données officielles":
         unsafe_allow_html=True
     )
 elif page == "Enquête Terrain":
-    import streamlit as st
-    import pandas as pd
-    import plotly.express as px
-    import plotly.graph_objects as go
-    from io import StringIO
-    from scipy.stats import pearsonr
-    import plotly.figure_factory as ff
+        import pandas as pd
+        import plotly.express as px
+        import plotly.graph_objects as go
+        from io import StringIO
+        from scipy.stats import pearsonr
+        import plotly.figure_factory as ff
+        from datetime import datetime
 
-    # Données brutes définies globalement
-    data = """Operateur,1. Votre entreprise dispose-t-elle de douches pour le personnel ?,2. Votre entreprise dispose-t-elle d’un restaurant pour le personnel?,3. Votre entreprise dispose-t-elle d’un jardin/système d’arrosage de plantes ?,4. Votre entreprise dispose-t-elle d’une ou plusieurs lave-vaisselle?,5. Votre entreprise dispose-t-elle d’un ou de plusieurs lave linge ?,6. De combien de toilettes disposez-vous dans votre bâtiments ?,7. Combien de personnes fréquentent approximativement vos locaux quotidiennement (personnel et visiteurs éventuels) ?
-    ANP,oui,non,oui,0,0,15,200
-    GLACIERES DU PORT,oui,non,non,0,0,2,10
-    Marsa Maroc,oui,non,non,0,0,90,1800
-    OCP,oui,non,non,0,0,64,550
-    ONP,non,non,non,0,0,10,100
-    somaport,oui,non,non,0,0,25,800
-    Mana mesine,oui,non,non,0,0,2,10
-    SOGAP,oui,non,non,0,0,2,30
-    """
+        # Données brutes définies globalement
+        data = """Operateur,1. Votre entreprise dispose-t-elle de douches pour le personnel ?,2. Votre entreprise dispose-t-elle d’un restaurant pour le personnel?,3. Votre entreprise dispose-t-elle d’un jardin/système d’arrosage de plantes ?,4. Votre entreprise dispose-t-elle d’une ou plusieurs lave-vaisselle?,5. Votre entreprise dispose-t-elle d’un ou de plusieurs lave linge ?,6. De combien de toilettes disposez-vous dans votre bâtiments ?,7. Combien de personnes fréquentent approximativement vos locaux quotidiennement (personnel et visiteurs éventuels) ?
+        ANP,oui,non,oui,0,0,15,200
+        GLACIERES DU PORT,oui,non,non,0,0,2,10
+        Marsa Maroc,oui,non,non,0,0,90,1800
+        OCP,oui,non,non,0,0,64,550
+        ONP,non,non,non,0,0,10,100
+        somaport,oui,non,non,0,0,25,800
+        Mana mesine,oui,non,non,0,0,2,10
+        SOGAP,oui,non,non,0,0,2,30
+        """
 
-    # Titre principal
-    st.markdown('<div class="main-title">📊 Analyse de la Consommation Domestique d\'Eau au Port de Casablanca : Résultats de l\'Enquête Terrain</div>', unsafe_allow_html=True)
-    # Date et heure actuelles en français
-    current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
+        # Titre principal
+        st.markdown('<div class="main-title">📊 Analyse de la Consommation Domestique d\'Eau au Port de Casablanca : Résultats de l\'Enquête Terrain</div>', unsafe_allow_html=True)
 
-    # Affichage dans Streamlit
-    st.markdown(f"<p><strong>Dernière mise à jour :</strong> {current_datetime}</p>", unsafe_allow_html=True)
+        # Date et heure actuelles en français
+        current_datetime = datetime.now().strftime("%d %B %Y %H:%M:%S")
 
-    # Introduction
-    st.markdown("""
-    <div class="intro-box">
-        <h4>Introduction</h4>
-        <p>La gestion durable des ressources en eau est un enjeu majeur dans les zones portuaires, où les activités économiques
-et humaines exercent une pression croissante sur cette ressource essentielle. Le Port de Casablanca, en tant que hub
-économique majeur du Maroc, concentre une diversité d’entreprises dont les activités influencent directement la consommation
-d’eau domestique. Afin de mieux comprendre ces dynamiques, une enquête terrain a été menée pour collecter des données détaillées sur
-les équipements liés à la consommation d’eau domesstique dans ces entreprises. 
+        # Affichage dans Streamlit
+        st.markdown(f"<p><strong>Dernière mise à jour :</strong> {current_datetime}</p>", unsafe_allow_html=True)
 
-Objectifs de l'étude :
-1. Révéler des tendances statistiques : identifier les patterns de consommation domestique d’eau par types d’équipements et opérateurs.
-2. Proposer des visualisations interactives : offrir des outils graphiques intuitifs permettant aux utilisateurs d’explorer
-   les données de manière dynamique.
-3. Identifier des corrélations : détecter des liens potentiels entre la fréquentation, les types d’équipements et les volumes
-   d’eau consommés, afin de mieux orienter les stratégies de gestion de l’eau.</p>
-    </div>
-    """, unsafe_allow_html=True)
+        # Introduction
+        st.markdown("""
+        <div class="intro-box">
+            <h4>Introduction</h4>
+            <p>L’objectif principal de cette analyse est de présenter les résultats de l’enquête terrain, réalisée entre XX et YY 2025 sur  la consommation domestique d’eau  des entreprises du Port de Casablanca. 
 
-    # Vue d'Ensemble des Données
-    st.markdown('<div class="section-header">Vue d\'Ensemble des Données</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subheader">Données Brutes de l\'Enquête</div>', unsafe_allow_html=True)
-    st.dataframe(pd.read_csv(StringIO(data)), use_container_width=True)
+        Objectifs spécifiques de l'étude :
+        1. Révéler des tendances statistiques : identifier les patterns de consommation domestique d’eau par types d’équipements et opérateurs.
+        2. Proposer des visualisations interactives : offrir des outils graphiques intuitifs permettant aux utilisateurs d’explorer
+        les données de manière dynamique.
+        3. Identifier des corrélations : détecter des liens potentiels entre la fréquentation, les types d’équipements et les volumes
+        d’eau consommés, afin de mieux orienter les stratégies de gestion de l’eau.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    # CSS pour le style
-    st.markdown("""
-    <style>
-    .main-title {
-        font-size: 2.5em;
-        color: #1E88E5;
-        text-align: center;
-        margin-bottom: 0.5em;
-    }
-    .section-header {
-        font-size: 1.8em;
-        color: #1565C0;
-        border-bottom: 2px solid #BBDEFB;
-        padding-bottom: 0.2em;
-    }
-    .subheader {
-        font-size: 1.4em;
-        color: #1976D2;
-        margin-top: 0.8em;
-    }
-    .info-box {
-        background-color: #E3F2FD;
-        padding: 1em;
-        border-radius: 10px;
-        margin-bottom: 1em;
-    }
-    .stButton>button {
-        background-color: #1E88E5;
-        color: white;
-        border-radius: 5px;
-        padding: 0.5em 1em;
-    }
-    .stButton>button:hover {
-        background-color: #1565C0;
-    }
-    .graph-comment {
-        background-color: #F8FAFD;
-        padding: 1em;
-        margin: 0.8em 0;
-        border-radius: 8px;
-        border-left: 4px solid #1E88E5;
-    }
-    .graph-comment h4 {
-        color: #1565C0;
-        font-size: 1.2em;
-        margin-bottom: 0.4em;
-    }
-    .graph-comment ul {
-        list-style-type: none;
-        padding-left: 0;
-    }
-    .graph-comment li {
-        margin-bottom: 0.5em;
-        padding-left: 1.2em;
-        position: relative;
-    }
-    .graph-comment li::before {
-        content: '➤';
-        color: #1E88E5;
-        position: absolute;
-        left: 0;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+        # Vue d'Ensemble des Données
+        st.markdown('<div class="section-header">Vue d\'Ensemble des Données</div>', unsafe_allow_html=True)
+        st.dataframe(pd.read_csv(StringIO(data)), use_container_width=True)
 
-    # --- Chargement et Prétraitement des Données ---
-    @st.cache_data
-    def load_and_preprocess_data():
-        df = pd.read_csv(StringIO(data))
-        noms_colonnes = {
-            '1. Votre entreprise dispose-t-elle de douches pour le personnel ?': 'Douches',
-            '2. Votre entreprise dispose-t-elle d’un restaurant pour le personnel?': 'Restaurant',
-            '3. Votre entreprise dispose-t-elle d’un jardin/système d’arrosage de plantes ?': 'Jardin_Arrosage',
-            '4. Votre entreprise dispose-t-elle d’une ou plusieurs lave-vaisselle?': 'LaveVaisselle',
-            '5. Votre entreprise dispose-t-elle d’un ou de plusieurs lave linge ?': 'LaveLinge',
-            '6. De combien de toilettes disposez-vous dans votre bâtiments ?': 'NbToilettes',
-            '7. Combien de personnes fréquentent approximativement vos locaux quotidiennement (personnel et visiteurs éventuels) ?': 'NbPersonnesQuotidien'
+        # CSS pour le style
+        st.markdown("""
+        <style>
+        .main-title {
+            font-size: 2.5em;
+            color: #1E88E5;
+            text-align: center;
+            margin-bottom: 0.5em;
         }
-        df.rename(columns=noms_colonnes, inplace=True)
-        df.set_index('Operateur', inplace=True)
+        .section-header {
+            font-size: 1.8em;
+            color: #1565C0;
+            border-bottom: 2px solid #BBDEFB;
+            padding-bottom: 0.2em;
+        }
+        .subheader {
+            font-size: 1.4em;
+            color: #1976D2;
+            margin-top: 0.8em;
+        }
+        .info-box {
+            background-color: #E3F2FD;
+            padding: 1em;
+            border-radius: 10px;
+            margin-bottom: 1em;
+        }
+        .stButton>button {
+            background-color: #1E88E5;
+            color: white;
+            border-radius: 5px;
+            padding: 0.5em 1em;
+        }
+        .stButton>button:hover {
+            background-color: #1565C0;
+        }
+        .graph-comment {
+            background-color: #F8FAFD;
+            padding: 1em;
+            margin: 0.8em 0;
+            border-radius: 8px;
+            border-left: 4px solid #1E88E5;
+        }
+        .graph-comment h4 {
+            color: #1565C0;
+            font-size: 1.2em;
+            margin-bottom: 0.4em;
+        }
+        .graph-comment ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .graph-comment li {
+            margin-bottom: 0.5em;
+            padding-left: 1.2em;
+            position: relative;
+        }
+        .graph-comment li::before {
+            content: '➤';
+            color: #1E88E5;
+            position: absolute;
+            left: 0;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
-        colonnes_oui_non = ['Douches', 'Restaurant', 'Jardin_Arrosage']
-        for col in colonnes_oui_non:
-            df[col] = df[col].str.strip().str.lower().map({'oui': 1, 'non': 0}).fillna(0)
-        df['LaveVaisselle'] = pd.to_numeric(df['LaveVaisselle'], errors='coerce').fillna(0).astype(int)
-        df['LaveLinge'] = pd.to_numeric(df['LaveLinge'], errors='coerce').fillna(0).astype(int)
-        return df
+        # --- Chargement et Prétraitement des Données ---
+        @st.cache_data
+        def load_and_preprocess_data():
+            df = pd.read_csv(StringIO(data))
+            noms_colonnes = {
+                '1. Votre entreprise dispose-t-elle de douches pour le personnel ?': 'Douches',
+                '2. Votre entreprise dispose-t-elle d’un restaurant pour le personnel?': 'Restaurant',
+                '3. Votre entreprise dispose-t-elle d’un jardin/système d’arrosage de plantes ?': 'Jardin_Arrosage',
+                '4. Votre entreprise dispose-t-elle d’une ou plusieurs lave-vaisselle?': 'LaveVaisselle',
+                '5. Votre entreprise dispose-t-elle d’un ou de plusieurs lave linge ?': 'LaveLinge',
+                '6. De combien de toilettes disposez-vous dans votre bâtiments ?': 'NbToilettes',
+                '7. Combien de personnes fréquentent approximativement vos locaux quotidiennement (personnel et visiteurs éventuels) ?': 'NbPersonnesQuotidien'
+            }
+            df.rename(columns=noms_colonnes, inplace=True)
+            df.set_index('Operateur', inplace=True)
 
-    df = load_and_preprocess_data()
+            colonnes_oui_non = ['Douches', 'Restaurant', 'Jardin_Arrosage']
+            for col in colonnes_oui_non:
+                df[col] = df[col].str.strip().str.lower().map({'oui': 1, 'non': 0}).fillna(0)
+            df['LaveVaisselle'] = pd.to_numeric(df['LaveVaisselle'], errors='coerce').fillna(0).astype(int)
+            df['LaveLinge'] = pd.to_numeric(df['LaveLinge'], errors='coerce').fillna(0).astype(int)
+            return df
 
-    # --- Exploration Visuelle des Données ---
-    st.markdown('<div class="section-header">Exploration Visuelle des Données</div>', unsafe_allow_html=True)
+        df = load_and_preprocess_data()
 
-    # 1. Analyse des Équipements (Catégoriques)
-    st.markdown('<div class="subheader">Analyse des Équipements (Catégoriques)</div>', unsafe_allow_html=True)
-    show_cat_bar = st.checkbox("Diagramme en barre", value=True, key='cat_bar')
-    show_cat_pie = st.checkbox("Diagramme en cercle", value=True, key='cat_pie')
+        # --- Exploration Visuelle des Données ---
+        st.markdown('<div class="section-header">Exploration Descriptives et Visuelle des Données</div>', unsafe_allow_html=True)
 
-    # Analyse des équipements catégoriques
-    variables_categorielles = ['Douches', 'Restaurant', 'Jardin_Arrosage', 'LaveVaisselle', 'LaveLinge']
-    constantes = [col for col in variables_categorielles if df[col].nunique() == 1]
+        # 1. Analyse des Équipements (Catégoriques)
+        st.markdown('<div class="subheader">Analyse des Équipements (Catégoriques)</div>', unsafe_allow_html=True)
+        show_cat_bar = st.checkbox("Diagramme en barre", value=True, key='cat_bar')
+        show_cat_pie = st.checkbox("Diagramme en cercle", value=True, key='cat_pie')
 
-    # Équipements non présents
-    if constantes and show_cat_pie:
-        st.markdown('<div class="subheader">Équipements Non Présents</div>', unsafe_allow_html=True)
-        for var in constantes:
-            fig_donut = go.Figure(data=[
-                go.Pie(labels=['Non (0)'], values=[len(df)], hole=0.5, textinfo='percent+label', marker=dict(colors=['#FF9999']))
-            ])
-            fig_donut.update_layout(title=f'Répartition de {var}', height=300, annotations=[dict(text='100%', x=0.5, y=0.5, font_size=16, showarrow=False)])
-            st.plotly_chart(fig_donut, use_container_width=True)
-            st.markdown(f"""
-            <div class="graph-comment">
-                <h4>Répartition de {var}</h4>
-                <ul>
-                    <li>100% (8/8 entreprises) sans {var.lower()}.</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
+        # Analyse des équipements catégoriques
+        variables_categorielles = ['Douches', 'Restaurant', 'Jardin_Arrosage', 'LaveVaisselle', 'LaveLinge']
+        constantes = [col for col in variables_categorielles if df[col].nunique() == 1]
 
-    # Distribution des équipements actifs
-    st.markdown('<div class="subheader">Distribution des Équipements Actifs</div>', unsafe_allow_html=True)
-    cat_summary = pd.DataFrame({
-        'Équipement': variables_categorielles,
-        'Pourcentage Oui (%)': [round(df[col].mean() * 100, 1) for col in variables_categorielles],
-        'Nombre Oui': [df[col].sum() for col in variables_categorielles]
-    })
-    st.table(cat_summary)
-    st.markdown("""
-    <div class="graph-comment">
-        <h4>Synthèse Statistique</h4>
-        <ul>
-            <li>Douches : 75% (6/8 entreprises), équipement dominant.</li>
-            <li>Jardin/Arrosage : 12.5% (1/8, ANP), usage marginal.</li>
-            <li>Autres équipements : absents, non prioritaires.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-    for var in ['Douches', 'Jardin_Arrosage']:
-        value_counts_df = df[var].value_counts().reset_index()
-        value_counts_df.columns = ['Valeur', 'Nombre']
-        oui_count = value_counts_df[value_counts_df['Valeur'] == 1]['Nombre'].iloc[0] if 1 in value_counts_df['Valeur'].values else 0
-        col1, col2 = st.columns(2)
-        if show_cat_bar:
-            with col1:
-                fig_bar = px.bar(value_counts_df, x='Valeur', y='Nombre', title=f'Distribution de {var} (Barres)', color='Valeur', color_discrete_sequence=px.colors.qualitative.Pastel)
-                fig_bar.update_layout(xaxis_title='Valeur (0 = Non, 1 = Oui)', yaxis_title='Nombre', showlegend=False)
-                st.plotly_chart(fig_bar, use_container_width=True)
+        # Équipements non présents
+        if constantes and show_cat_pie:
+            st.markdown('<div class="subheader">Équipements Non Présents</div>', unsafe_allow_html=True)
+            for var in constantes:
+                fig_donut = go.Figure(data=[
+                    go.Pie(labels=['Non (0)'], values=[len(df)], hole=0.5, textinfo='percent+label', marker=dict(colors=['#FF9999']))
+                ])
+                fig_donut.update_layout(title=f'Répartition de {var}', height=300, annotations=[dict(text='100%', x=0.5, y=0.5, font_size=16, showarrow=False)])
+                st.plotly_chart(fig_donut, use_container_width=True)
                 st.markdown(f"""
                 <div class="graph-comment">
-                    <h4>Distribution de {var} (Barres)</h4>
+                    <h4>Répartition de {var}</h4>
                     <ul>
-                        <li>{oui_count}/8 ({round(oui_count/8*100, 1)}%) ont {var.lower()}.</li>
-                        <li>{'Priorité sanitaire.' if var == 'Douches' else 'Spécifique à ANP.'}</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
-        if show_cat_pie:
-            with col2:
-                fig_pie = px.pie(value_counts_df, values='Nombre', names='Valeur', title=f'Répartition de {var} (Cercle)', color_discrete_sequence=px.colors.qualitative.Pastel)
-                fig_pie.update_traces(textinfo='percent+label')
-                st.plotly_chart(fig_pie, use_container_width=True)
-                st.markdown(f"""
-                <div class="graph-comment">
-                    <h4>Répartition de {var} (Cercle)</h4>
-                    <ul>
-                        <li>{round(oui_count/8*100, 1)}% avec, {100-round(oui_count/8*100, 1)}% sans.</li>
-                        <li>{'Forte adoption.' if var == 'Douches' else 'Usage minoritaire.'}</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
-
-    # 2. Statistiques des Variables Numériques
-    st.markdown('<div class="subheader">Statistiques des Variables Numériques</div>', unsafe_allow_html=True)
-    show_quant_hist = st.checkbox("Diagramme en barre (Histogramme)", value=True, key='quant_hist')
-    show_quant_violin = st.checkbox("Diagramme en tuyaux", value=True, key='quant_violin')
-    show_quant_box = st.checkbox("Boxplot", value=True, key='quant_box')
-
-    # Analyse des variables quantitatives
-    variables_quantitatives = ['NbToilettes', 'NbPersonnesQuotidien']
-    stats_summary = pd.DataFrame({
-        'Statistique': ['Moyenne', 'Écart-type', 'Médiane', 'Min', 'Max', 'CV (%)'],
-        'NbToilettes': [round(df['NbToilettes'].mean(), 2), round(df['NbToilettes'].std(), 2), df['NbToilettes'].median(), df['NbToilettes'].min(), df['NbToilettes'].max(), round(df['NbToilettes'].std() / df['NbToilettes'].mean() * 100, 1)],
-        'NbPersonnesQuotidien': [round(df['NbPersonnesQuotidien'].mean(), 2), round(df['NbPersonnesQuotidien'].std(), 2), df['NbPersonnesQuotidien'].median(), df['NbPersonnesQuotidien'].min(), df['NbPersonnesQuotidien'].max(), round(df['NbPersonnesQuotidien'].std() / df['NbPersonnesQuotidien'].mean() * 100, 1)]
-    })
-    st.table(stats_summary)
-    st.markdown("""
-    <div class="graph-comment">
-        <h4>Synthèse Statistique</h4>
-        <ul>
-            <li>NbToilettes : Moyenne 26.25, médiane 12.5, CV 125.8%. Distribution asymétrique (2 à 90).</li>
-            <li>NbPersonnesQuotidien : Moyenne 437.5, médiane 150, CV 144.6%. Valeur extrême à 1800.</li>
-            <li>Forte variabilité, influencée par Marsa Maroc.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-    for var in variables_quantitatives:
-        with st.expander(f"📈 Analyse de {var}", expanded=True):
-            stats = df[var].describe()
-            cv = df[var].std() / df[var].mean() * 100
-            stats_df = pd.DataFrame({
-                'Statistique': ['Moyenne', 'Écart-type', 'Médiane', 'Min', 'Max', 'CV (%)'],
-                'Valeur': [round(stats['mean'], 2), round(stats['std'], 2), stats['50%'], stats['min'], stats['max'], round(cv, 2)]
-            })
-            st.markdown("**Statistiques Descriptives**")
-            st.table(stats_df)
-            st.markdown(f"""
-            <div class="graph-comment">
-                <h4>Résumé de {var}</h4>
-                <ul>
-                    <li>Moyenne ({round(stats['mean'], 2)}) > médiane ({stats['50%']}), distribution asymétrique.</li>
-                    <li>CV {round(cv, 2)}% : forte dispersion.</li>
-                    <li>Étendue : {int(stats['min'])} à {int(stats['max'])}.</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
-
-            if show_quant_hist:
-                fig_hist = px.histogram(df, x=var, nbins=10, title=f'Distribution de {var} (Histogramme)', color_discrete_sequence=['#1E88E5'])
-                fig_hist.update_layout(xaxis_title=var, yaxis_title='Fréquence', showlegend=False)
-                st.plotly_chart(fig_hist, use_container_width=True)
-                st.markdown(f"""
-                <div class="graph-comment">
-                    <h4>Distribution de {var} (Histogramme)</h4>
-                    <ul>
-                        <li>Concentration autour de {stats['50%']}, queue vers {stats['max']}.</li>
-                        <li>{'Marsa Maroc (90) extrême.' if var == 'NbToilettes' else 'Marsa Maroc (1800) extrême.'}</li>
+                        <li>100% (8/8 entreprises) sans {var.lower()}.</li>
                     </ul>
                 </div>
                 """, unsafe_allow_html=True)
 
-            if show_quant_violin:
-                fig_violin = go.Figure(data=go.Violin(y=df[var], box_visible=True, meanline_visible=True, fillcolor='#BBDEFB', points='all'))
-                fig_violin.update_layout(title=f'Distribution de {var}', yaxis_title=var, showlegend=False)
-                st.plotly_chart(fig_violin, use_container_width=True)
-                st.markdown(f"""
-                <div class="graph-comment">
-                    <h4>Distribution de {var} (Violon)</h4>
-                    <ul>
-                        <li>Médiane {stats['50%']}, forte densité dans l'interquartile.</li>
-                        <li>Valeur extrême à {stats['max']} (Marsa Maroc).</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
-
-            if show_quant_box:
-                fig_box = go.Figure(data=go.Box(y=df[var], boxpoints='all', jitter=0.3, pointpos=-1.8, fillcolor='#BBDEFB'))
-                fig_box.update_layout(title=f'Distribution de {var} (Boxplot)', yaxis_title=var, showlegend=False)
-                fig_box.update_traces(marker=dict(color='#1E88E5'))
-                st.plotly_chart(fig_box, use_container_width=True)
-                st.markdown(f"""
-                <div class="graph-comment">
-                    <h4>Distribution de {var} (Boxplot)</h4>
-                    <ul>
-                        <li>Médiane {stats['50%']}, interquartile [{stats['25%']}, {stats['75%']}].</li>
-                        <li>Valeur extrême à {stats['max']} (Marsa Maroc).</li>
-                    </ul>
-                </div>
-                """, unsafe_allow_html=True)
-
-            Q1, Q3 = stats['25%'], stats['75%']
-            IQR = Q3 - Q1
-            outliers = df[(df[var] < Q1 - 1.5 * IQR) | (df[var] > Q3 + 1.5 * IQR)][var]
-            st.markdown("**Valeurs Aberrantes**")
-            st.write(f"Entreprises : {', '.join(outliers.index.tolist()) if not outliers.empty else 'Aucune'}")
-            if not outliers.empty:
-                st.write(f"Valeurs : {outliers.values.tolist()}")
-
-    # 3. Analyse de Corrélation Bivariée
-    st.markdown('<div class="subheader">Analyse de Corrélation Bivariée</div>', unsafe_allow_html=True)
-    show_corr_scatter = st.checkbox("Nuage de Points", value=True, key='corr_scatter')
-    show_corr_heatmap = st.checkbox("Matrice de Corrélation", value=True, key='corr_heatmap')
-
-    # Analyse de corrélation
-    st.markdown('<div class="subheader">Relation entre Toilettes et Fréquentation</div>', unsafe_allow_html=True)
-    corr, p_value = pearsonr(df['NbToilettes'], df['NbPersonnesQuotidien'])
-    st.markdown(f"""
-    <div class="graph-comment">
-        <h4>Synthèse Statistique</h4>
-        <ul>
-            <li>Corrélation de Pearson : {round(corr, 3)}, liaison forte et positive.</li>
-            <li>P-valeur : {round(p_value, 3)}, {'significative' if p_value < 0.05 else 'non significative'}.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if show_corr_scatter:
-        fig_scatter = px.scatter(df, x='NbToilettes', y='NbPersonnesQuotidien', text=df.index, title='Relation entre Toilettes et Fréquentation (Nuage)', color_discrete_sequence=['#1E88E5'])
-        fig_scatter.update_traces(marker=dict(size=12))
-        fig_scatter.update_layout(showlegend=False)
-        st.plotly_chart(fig_scatter, use_container_width=True)
-        st.markdown(f"""
+        # Distribution des équipements actifs
+        st.markdown('<div class="subheader">Distribution des Équipements Actifs</div>', unsafe_allow_html=True)
+        cat_summary = pd.DataFrame({
+            'Équipement': variables_categorielles,
+            'Pourcentage Oui (%)': [round(df[col].mean() * 100, 1) for col in variables_categorielles],
+            'Nombre Oui': [df[col].sum() for col in variables_categorielles]
+        })
+        st.table(cat_summary)
+        st.markdown("""
         <div class="graph-comment">
-            <h4>Nuage de Points</h4>
+            <h4>Synthèse Statistique</h4>
             <ul>
-                <li>Forte liaison : plus de fréquentation, plus de toilettes.</li>
-                <li>Valeur extrême : Marsa Maroc (90 toilettes, 1800 personnes).</li>
+                <li>Douches : 75% (6/8 entreprises), équipement dominant.</li>
+                <li>Jardin/Arrosage : 12.5% (1/8, ANP), usage marginal.</li>
+                <li>Autres équipements : absents, non prioritaires.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
 
-    if show_corr_heatmap:
-        corr_matrix = df[variables_quantitatives].corr()
-        fig_heatmap = ff.create_annotated_heatmap(z=corr_matrix.values, x=variables_quantitatives, y=variables_quantitatives, colorscale='Blues', annotation_text=corr_matrix.round(2).values)
-        fig_heatmap.update_layout(title='Matrice de Corrélation', width=500, height=500)
-        st.plotly_chart(fig_heatmap, use_container_width=True)
-        st.markdown(f"""
+        for var in ['Douches', 'Jardin_Arrosage']:
+            value_counts_df = df[var].value_counts().reset_index()
+            value_counts_df.columns = ['Valeur', 'Nombre']
+            oui_count = value_counts_df[value_counts_df['Valeur'] == 1]['Nombre'].iloc[0] if 1 in value_counts_df['Valeur'].values else 0
+            col1, col2 = st.columns(2)
+            if show_cat_bar:
+                with col1:
+                    fig_bar = px.bar(value_counts_df, x='Valeur', y='Nombre', title=f'Distribution de {var} (Barres)', color='Valeur', color_discrete_sequence=px.colors.qualitative.Pastel)
+                    fig_bar.update_layout(xaxis_title='Valeur (0 = Non, 1 = Oui)', yaxis_title='Nombre', showlegend=False)
+                    st.plotly_chart(fig_bar, use_container_width=True)
+                    st.markdown(f"""
+                    <div class="graph-comment">
+                        <h4>Distribution de {var} (Barres)</h4>
+                        <ul>
+                            <li>{oui_count}/8 ({round(oui_count/8*100, 1)}%) ont {var.lower()}.</li>
+                            <li>{'Priorité sanitaire.' if var == 'Douches' else 'Spécifique à ANP.'}</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+            if show_cat_pie:
+                with col2:
+                    fig_pie = px.pie(value_counts_df, values='Nombre', names='Valeur', title=f'Répartition de {var} (Cercle)', color_discrete_sequence=px.colors.qualitative.Pastel)
+                    fig_pie.update_traces(textinfo='percent+label')
+                    st.plotly_chart(fig_pie, use_container_width=True)
+                    st.markdown(f"""
+                    <div class="graph-comment">
+                        <h4>Répartition de {var} (Cercle)</h4>
+                        <ul>
+                            <li>{round(oui_count/8*100, 1)}% avec, {100-round(oui_count/8*100, 1)}% sans.</li>
+                            <li>{'Forte adoption.' if var == 'Douches' else 'Usage minoritaire.'}</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+        # 2. Statistiques des Variables Numériques
+        st.markdown('<div class="subheader">Statistiques des Variables Numériques</div>', unsafe_allow_html=True)
+        show_quant_hist = st.checkbox("Diagramme en barre (Histogramme)", value=True, key='quant_hist')
+        show_quant_box = st.checkbox("Boxplot", value=True, key='quant_box')
+
+        # Analyse des variables quantitatives
+        variables_quantitatives = ['NbToilettes', 'NbPersonnesQuotidien']
+        stats_summary = pd.DataFrame({
+            'Statistique': ['Moyenne', 'Écart-type', 'Médiane', 'Min', 'Max', 'CV (%)'],
+            'NbToilettes': [round(df['NbToilettes'].mean(), 2), round(df['NbToilettes'].std(), 2), df['NbToilettes'].median(), df['NbToilettes'].min(), df['NbToilettes'].max(), round(df['NbToilettes'].std() / df['NbToilettes'].mean() * 100, 1)],
+            'NbPersonnesQuotidien': [round(df['NbPersonnesQuotidien'].mean(), 2), round(df['NbPersonnesQuotidien'].std(), 2), df['NbPersonnesQuotidien'].median(), df['NbPersonnesQuotidien'].min(), df['NbPersonnesQuotidien'].max(), round(df['NbPersonnesQuotidien'].std() / df['NbPersonnesQuotidien'].mean() * 100, 1)]
+        })
+        st.table(stats_summary)
+        st.markdown("""
         <div class="graph-comment">
-            <h4>Matrice de Corrélation</h4>
+            <h4>Synthèse Statistique</h4>
             <ul>
-                <li>Corrélation {round(corr, 2)} : forte liaison entre fréquentation et nombre de toilettes.</li>
+                <li>NbToilettes : Moyenne 26.25, médiane 12.5, CV 125.8%. Distribution asymétrique (2 à 90).</li>
+                <li>NbPersonnesQuotidien : Moyenne 437.5, médiane 150, CV 144.6%. Valeur extrême à 1800.</li>
+                <li>Forte variabilité, influencée par Marsa Maroc.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
+
+        for var in variables_quantitatives:
+            with st.expander(f"📈 Analyse de {var}", expanded=True):
+                stats = df[var].describe()
+                cv = df[var].std() / df[var].mean() * 100
+                stats_df = pd.DataFrame({
+                    'Statistique': ['Moyenne', 'Écart-type', 'Médiane', 'Min', 'Max', 'CV (%)'],
+                    'Valeur': [round(stats['mean'], 2), round(stats['std'], 2), stats['50%'], stats['min'], stats['max'], round(cv, 2)]
+                })
+                st.markdown("**Statistiques Descriptives**")
+                st.table(stats_df)
+                st.markdown(f"""
+                <div class="graph-comment">
+                    <h4>Résumé de {var}</h4>
+                    <ul>
+                        <li>Moyenne ({round(stats['mean'], 2)}) > médiane ({stats['50%']}), distribution asymétrique.</li>
+                        <li>CV {round(cv, 2)}% : forte dispersion.</li>
+                        <li>Étendue : {int(stats['min'])} à {int(stats['max'])}.</li>
+                    </ul>
+                </div>
+                """, unsafe_allow_html=True)
+
+                if show_quant_hist:
+                    fig_hist = px.histogram(df, x=var, nbins=10, title=f'Distribution de {var} (Histogramme)', color_discrete_sequence=['#1E88E5'])
+                    fig_hist.update_layout(xaxis_title=var, yaxis_title='Fréquence', showlegend=False)
+                    st.plotly_chart(fig_hist, use_container_width=True)
+                    st.markdown(f"""
+                    <div class="graph-comment">
+                        <h4>Distribution de {var} (Histogramme)</h4>
+                        <ul>
+                            <li>Concentration autour de {stats['50%']}, queue vers {stats['max']}.</li>
+                            <li>{'Marsa Maroc (90) extrême.' if var == 'NbToilettes' else 'Marsa Maroc (1800) extrême.'}</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                if show_quant_box:
+                    fig_box = go.Figure(data=go.Box(y=df[var], boxpoints='all', jitter=0.3, pointpos=-1.8, fillcolor='#BBDEFB'))
+                    fig_box.update_layout(title=f'Distribution de {var} (Boxplot)', yaxis_title=var, showlegend=False)
+                    fig_box.update_traces(marker=dict(color='#1E88E5'))
+                    st.plotly_chart(fig_box, use_container_width=True)
+                    st.markdown(f"""
+                    <div class="graph-comment">
+                        <h4>Distribution de {var} (Boxplot)</h4>
+                        <ul>
+                            <li>Médiane {stats['50%']}, interquartile [{stats['25%']}, {stats['75%']}].</li>
+                            <li>Valeur extrême à {stats['max']} (Marsa Maroc).</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                Q1, Q3 = stats['25%'], stats['75%']
+                IQR = Q3 - Q1
+                outliers = df[(df[var] < Q1 - 1.5 * IQR) | (df[var] > Q3 + 1.5 * IQR)][var]
+                st.markdown("**Valeurs Aberrantes**")
+                st.write(f"Entreprises : {', '.join(outliers.index.tolist()) if not outliers.empty else 'Aucune'}")
+                if not outliers.empty:
+                    st.write(f"Valeurs : {outliers.values.tolist()}")
+
+        # 3. Analyse de Corrélation Bivariée
+        st.markdown('<div class="subheader">Analyse de Corrélation Bivariée</div>', unsafe_allow_html=True)
+        show_corr_scatter = st.checkbox("Nuage de Points", value=True, key='corr_scatter')
+        show_corr_heatmap = st.checkbox("Matrice de Corrélation", value=True, key='corr_heatmap')
+
+        # Analyse de corrélation
+        st.markdown('<div class="subheader">Relation entre Toilettes et Fréquentation</div>', unsafe_allow_html=True)
+        corr, p_value = pearsonr(df['NbToilettes'], df['NbPersonnesQuotidien'])
+        st.markdown(f"""
+        <div class="graph-comment">
+            <h4>Synthèse Statistique</h4>
+            <ul>
+                <li>Corrélation de Pearson : {round(corr, 3)}, liaison forte et positive.</li>
+                <li>P-valeur : {round(p_value, 3)}, {'significative' if p_value < 0.05 else 'non significative'}.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if show_corr_scatter:
+            fig_scatter = px.scatter(df, x='NbToilettes', y='NbPersonnesQuotidien', text=df.index, title='Relation entre Toilettes et Fréquentation (Nuage)', color_discrete_sequence=['#1E88E5'])
+            fig_scatter.update_traces(marker=dict(size=12))
+            fig_scatter.update_layout(showlegend=False)
+            st.plotly_chart(fig_scatter, use_container_width=True)
+            st.markdown(f"""
+            <div class="graph-comment">
+                <h4>Nuage de Points</h4>
+                <ul>
+                    <li>Forte liaison : plus de fréquentation, plus de toilettes.</li>
+                    <li>Valeur extrême : Marsa Maroc (90 toilettes, 1800 personnes).</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        if show_corr_heatmap:
+            corr_matrix = df[variables_quantitatives].corr()
+            fig_heatmap = ff.create_annotated_heatmap(z=corr_matrix.values, x=variables_quantitatives, y=variables_quantitatives, colorscale='Blues', annotation_text=corr_matrix.round(2).values)
+            fig_heatmap.update_layout(title='Matrice de Corrélation', width=500, height=500)
+            st.plotly_chart(fig_heatmap, use_container_width=True)
+            st.markdown(f"""
+            <div class="graph-comment">
+                <h4>Matrice de Corrélation</h4>
+                <ul>
+                    <li>Corrélation {round(corr, 2)} : forte liaison entre fréquentation et nombre de toilettes.</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
         st.header("Principaux enseignements")
-    st.write("""
-    L’enquête menée auprès de huit opérateurs du port de Casablanca vise à décrypter les usages domestiques de l’eau, 
-    en examinant les équipements liés à la consommation (sanitaires, restauration, arrosage, entretien) et la fréquentation 
-    quotidienne.
-    """)
+        st.write("""
+        L’enquête menée auprès de huit opérateurs du port de Casablanca vise à décrypter les usages domestiques de l’eau, 
+        en examinant les équipements liés à la consommation (sanitaires, restauration, arrosage, entretien) et la fréquentation 
+        quotidienne.
+        """)
 
-    # Distribution des Équipements
-    st.write("""
-    Concernant les variables catégoriques, l’analyse des équipements révèle une adoption inégale des installations consommatrices d’eau :
-    - **Douches** : Présentes chez 75% des opérateurs (6/8, dont ANP, Marsa Maroc, OCP), elles constituent l’équipement 
-    sanitaire le plus courant, reflétant des besoins d’hygiène pour le personnel portuaire.
-    - **Jardin/Arrosage** : Uniquement chez ANP (12.5%, 1/8), cet usage est marginal, suggérant une faible priorité.
-    - **Restaurants, Lave-vaisselle, Lave-linge** : Absents chez tous les opérateurs (100%, 8/8).
+        # Distribution des Équipements
+        st.write("""
+        Concernant les variables catégoriques, l’analyse des équipements révèle une adoption inégale des installations consommatrices d’eau :
+        - **Douches** : Présentes chez 75% des opérateurs (6/8, dont ANP, Marsa Maroc, OCP), elles constituent l’équipement 
+        sanitaire le plus courant, reflétant des besoins d’hygiène pour le personnel portuaire.
+        - **Jardin/Arrosage** : Uniquement chez ANP (12.5%, 1/8), cet usage est marginal, suggérant une faible priorité.
+        - **Restaurants, Lave-vaisselle, Lave-linge** : Absents chez tous les opérateurs (100%, 8/8).
+        """)
+
+        # Statistiques des Variables Numériques
+        st.write("""
+        Les variables quantitatives, nombre de toilettes (NbToilettes) et fréquentation quotidienne (NbPersonnesQuotidien), 
+        présentent une forte variabilité, influencée par la taille des opérateurs :
+
+        **Nombre de Toilettes** :
+        - Moyenne : 26,25 toilettes, médiane : 12,5, coefficient de variation (CV) : 125,8%.
+        - Étendue : 2 (petits opérateurs comme Mana Mesine) à 90 (Marsa Maroc).
+        - Distribution asymétrique, avec une queue vers les grandes valeurs. Marsa Maroc (90 toilettes) est une valeur extrême, 
+        reflétant son envergure.
+
+        **Fréquentation Quotidienne** :
+        - Moyenne : 437,5 personnes, médiane : 150, CV : 144,6%.
+        - Étendue : 10 (Mana Mesine, Glacières du Port) à 1800 (Marsa Maroc).
+        - Distribution fortement asymétrique, dominée par Marsa Maroc, qui concentre une fréquentation exceptionnelle.
+
+        La forte dispersion (CV élevé) et les valeurs extrêmes soulignent l’hétérogénéité des opérateurs portuaires, avec des 
+        implications directes sur la consommation d’eau liée aux sanitaires.
+        """)
+
+        st.write("""
+        L’étude de la relation entre le nombre de toilettes et la fréquentation quotidienne révèle une liaison significative :
+        - **Corrélation de Pearson** : 0,944, indiquant une relation linéaire forte et positive.
+        - **P-valeur** : 0,0002, confirmant la significativité statistique (p < 0,05).
+
+        Cette corrélation suggère que la fréquentation est un déterminant majeur de la demande en installations sanitaires, 
+        et donc de la consommation domestique d’eau.
+        """)
+
+        st.write("""
+        ### Conclusion:
+        Les données d’enquête terrain sur la consommation domestique d’eau au port de Casablanca révèlent des tendances intéressantes concernant les infrastructures des entreprises interrogées. 
+
+        1. **Douches pour le personnel** : La majorité des entreprises (7 sur 8) disposent de douches, sauf l’ONP. Cela suggère une infrastructure orientée vers le confort des employés, probablement en lien avec des activités physiques ou des conditions de travail spécifiques.
+
+        2. **Restaurants** : Aucune entreprise ne dispose d’un restaurant pour le personnel. Cela pourrait indiquer une dépendance à des solutions externes (cantines, repas personnels) ou une absence de besoin pour ce type de service.
+
+        3. **Jardins/systèmes d’arrosage** : Seule l’ANP dispose d’un jardin ou d’un système d’arrosage, ce qui est cohérent avec une consommation d’eau potentiellement plus élevée pour l’entretien paysager.
+
+        4. **Lave-vaisselles et lave-linges** : Aucune entreprise ne possède de lave-vaisselle ou de lave-linge, ce qui limite la consommation d’eau liée à ces équipements.
+
+        5. **Toilettes** : Le nombre de toilettes varie considérablement, de 2 (GLACIERES DU PORT, Mana mesine, SOGAP) à 90 (Marsa Maroc). Cette variation reflète la taille des entreprises et le nombre de personnes fréquentant les locaux, avec Marsa Maroc (1800 personnes) et somaport (800 personnes) ayant les installations les plus importantes.
+
+        6. **Fréquentation quotidienne** : La fréquentation va de 10 personnes (GLACIERES DU PORT, Mana mesine) à 1800 (Marsa Maroc). Les entreprises avec une forte fréquentation (Marsa Maroc, somaport, OCP) ont logiquement plus de toilettes, ce qui indique une corrélation entre la fréquentation et les besoins en infrastructures sanitaires.
+
+    
 
 
-    """)
+        """)
 
-    # Statistiques des Variables Numériques
-    st.write("""
-    Les variables quantitatives, nombre de toilettes (NbToilettes) et fréquentation quotidienne (NbPersonnesQuotidien), 
-    présentent une forte variabilité, influencée par la taille des opérateurs :
-
-    **Nombre de Toilettes** :
-    - Moyenne : 26,25 toilettes, médiane : 12,5, coefficient de variation (CV) : 125,8%.
-    - Étendue : 2 (petits opérateurs comme Mana Mesine) à 90 (Marsa Maroc).
-    - Distribution asymétrique, avec une queue vers les grandes valeurs. Marsa Maroc (90 toilettes) est une valeur extrême, 
-    reflétant son envergure.
-
-    **Fréquentation Quotidienne** :
-    - Moyenne : 437,5 personnes, médiane : 150, CV : 144,6%.
-    - Étendue : 10 (Mana Mesine, Glacières du Port) à 1800 (Marsa Maroc).
-    - Distribution fortement asymétrique, dominée par Marsa Maroc, qui concentre une fréquentation exceptionnelle.
-
-    La forte dispersion (CV élevé) et les valeurs extrêmes soulignent l’hétérogénéité des opérateurs portuaires, avec des 
-    implications directes sur la consommation d’eau liée aux sanitaires.
-    """)
-
-
-    st.write("""
-    L’étude de la relation entre le nombre de toilettes et la fréquentation quotidienne révèle une liaison significative :
-    - **Corrélation de Pearson** : 0,944, indiquant une relation linéaire forte et positive.
-    - **P-valeur** : 0,0002, confirmant la significativité statistique (p < 0,05).
-
-    Cette corrélation suggère que la fréquentation est un déterminant majeur de la demande en installations sanitaires, 
-    et donc de la consommation domestique d’eau.
-    """)
-    # ✅ Footer
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown(
-    "<p style='text-align: center; color: gray; font-style: italic; font-size: 14px;'>© Mai 2025 | Dashboard développé par M. Bougantouche & M. Bouceta</p>", unsafe_allow_html=True)
+        # Footer
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown(
+            "<p style='text-align: center; color: gray; font-style: italic; font-size: 14px;'>© Mai 2025 | Dashboard développé par M. Bougantouche & M. Bouceta</p>", unsafe_allow_html=True)
