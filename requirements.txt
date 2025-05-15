@@ -3,3 +3,7 @@ plotly
 numpy
 streamlit
 scikit-learn
+sklearn
+matplotlib
+seaborn
+io
