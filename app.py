@@ -388,8 +388,6 @@ elif page == "Enquête Terrain":
     from sklearn.preprocessing import StandardScaler
     from sklearn.cluster import KMeans
     from scipy.stats import pearsonr
-    import seaborn as sns
-    import matplotlib.pyplot as plt
     import plotly.figure_factory as ff
 
     # Configuration de la page pour un design amélioré
